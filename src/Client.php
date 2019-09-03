@@ -2,28 +2,17 @@
 
 namespace Sisense;
 
-use InvalidArgumentException;
+use Sisense\Exceptions\SisenseClientException as SisenseClientExceptionAlias;
 
+/**
+ * Class Client
+ * @package Sisense
+ *
+ * @property-read Api\Auth $auth
+ */
 class Client implements ClientInterface
 {
-    /**
-     * @var array
-     */
-    private static $defaultPorts = array(
-        'http' => 80,
-        'https' => 443,
-    );
-
-    /**
-     * Error strings if json is invalid.
-     */
-    private static $jsonErrors = array(
-        JSON_ERROR_NONE => 'No error has occurred',
-        JSON_ERROR_DEPTH => 'The maximum stack depth has been exceeded',
-        JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
-        JSON_ERROR_SYNTAX => 'Syntax error',
-    );
-
+    use JsonEncodeDecoder;
 
     private $classes = [
         'auth' => 'Auth',
@@ -65,16 +54,32 @@ class Client implements ClientInterface
     }
 
     /**
+     * @param string $name
+     *
+     * @return Api\AbstractApi
+     * @throws \InvalidArgumentException
+     */
+    public function __get($name)
+    {
+        return $this->api($name);
+    }
+
+    /**
      * @param $path
      * @param $method
-     * @param array $data
-     * @param array $headers
-     * @return string
+     * @param array $options
+     * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function runRequest($path, $method, $data = [], $headers = [])
+    public function runRequest($path, $method, $options = [])
     {
-        $response = $this->http->request($method, $this->url . $path);
+        if ($this->apiToken) {
+            $options['headers'] = [
+                'Authorization' => 'Bearer ' . $this->apiToken,
+            ];
+        }
+
+        $response = $this->http->request($method, $this->url . $path, $options);
 
         return $this->decode(
             $response->getBody()->getContents()
@@ -84,7 +89,6 @@ class Client implements ClientInterface
     /**
      * @param $path
      * @param array $params
-     * @param bool $decode
      * @return array|string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -105,52 +109,40 @@ class Client implements ClientInterface
      * @return bool|string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post($path, $data = null, $headers = [])
+    public function post($path, $data)
     {
-        if (empty($headers['Content-Type']) || $headers['Content-Type'] == 'application/json' ) {
-            $data = $this->encodeData($data);
-        }
+        $options['form_params'] = $data;
 
-        return $this->runRequest($path, 'POST', $data, $headers);
+//        var_dump($data);
+        return $this->runRequest($path, 'POST', $options);
     }
 
     /**
-     * @param mixed $data
+     * @param $username
+     * @param string $password
      *
-     * @return array
+     * @return string
+     * @throws SisenseClientExceptionAlias
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function encodeData($data = null)
+    public function login($username, $password)
     {
-        if (is_array($data)) {
-            return json_encode($data);
+        $options = [
+            'form_params' => [
+                'username' => $username,
+                'password' => $password,
+            ],
+        ];
+
+        $response = $this->runRequest('v1/authentication/login', 'POST', $options);
+
+        if (empty($response['access_token'])) {
+            throw new SisenseClientExceptionAlias('Unable to authenticate');
         }
 
-        return [];
-    }
+        $this->apiToken = $response['access_token'];
 
-    /**
-     * Decodes json response.
-     *
-     * Returns $json if no error occured during decoding but decoded value is
-     * null.
-     *
-     * @param string $json
-     *
-     * @return array|string
-     */
-    public function decode($json)
-    {
-        if ('' === $json) {
-            return '';
-        }
-        $decoded = json_decode($json, true);
-        if (null !== $decoded) {
-            return $decoded;
-        }
-        if (JSON_ERROR_NONE === json_last_error()) {
-            return $json;
-        }
-        return self::$jsonErrors[json_last_error()];
+        return $this;
     }
 
     /**
@@ -159,28 +151,6 @@ class Client implements ClientInterface
     public function getUrl()
     {
         return $this->url;
-    }
-
-    /**
-     * Set the apiToken object globally from json encoded token object.
-     *
-     * @param string $apiToken json token object
-     *
-     * @return Client
-     */
-    public function setApiToken($apiToken)
-    {
-        $this->apiToken = $apiToken;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getApiToken()
-    {
-        return $this->apiToken;
     }
 
     /**
@@ -203,14 +173,4 @@ class Client implements ClientInterface
         return $this->apis[$name];
     }
 
-    /**
-     * @param string $name
-     *
-     * @throws \InvalidArgumentException
-     *
-     */
-    public function __get($name)
-    {
-        return $this->api($name);
-    }
 }

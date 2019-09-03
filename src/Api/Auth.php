@@ -2,34 +2,22 @@
 
 namespace Sisense\Api;
 
-use Sisense\Client;
-use Sisense\Exceptions\SisenseClientException;
-
-class Auth extends Client
+class Auth extends AbstractApi
 {
-    protected $apiGroup = 'Auth';
+    protected $apiGroup = 'auth';
 
     /**
-     * @param $username
-     * @param string $password
+     * Indicates if current user is logged in.
      *
-     * @return string
-     * @throws SisenseClientException
+     * @return bool
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getToken($username, $password)
+    public function isAuth()
     {
-        $data = [
-            'username' => $username,
-            'password' => $password,
-        ];
+        $path = $this->getPath('isauth');
 
-        $response = $this->post('api/v1/authentication/login', $data);
+        $response = $this->get($path);
 
-        if (empty($response['access_token'])) {
-            throw new SisenseClientException('Unable to authenticate');
-        }
-
-        return $response['access_token'];
+        return $response['isAuthenticated'] ?? false;
     }
 }

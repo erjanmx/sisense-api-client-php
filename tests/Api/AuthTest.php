@@ -12,9 +12,13 @@ class AuthTest extends TestCase
      */
     public function testLogin()
     {
-        $client = new Client('http://localhost');
+        $client = new Client('https://sisense02.pbp.sh/api/');
 
-        $client->auth->getToken('username', 'password');
+        $client->login('r.stolk@pointerbp.nl', 'Plantenbak1');
+
+        $r = $client->auth->isAuth();
+
+        var_dump($r);
 
         $this->assertSame('http://localhost', $client->getUrl());
     }
