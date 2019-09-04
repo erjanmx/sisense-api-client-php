@@ -4,6 +4,10 @@ namespace Sisense\Api;
 
 use Sisense\Client;
 
+/**
+ * Class AbstractApi
+ * @package Sisense\Api
+ */
 class AbstractApi implements ApiInterface
 {
     protected $apiGroup = '';
@@ -52,7 +56,7 @@ class AbstractApi implements ApiInterface
      */
     public function put($path, $data = null)
     {
-        // TODO: Implement put() method.
+        return $this->client->put($path, $data);
     }
 
     /**
@@ -62,11 +66,12 @@ class AbstractApi implements ApiInterface
      */
     public function delete($path, $data = null)
     {
-        // TODO: Implement delete() method.
+        return $this->client->delete($path, $data);
     }
 
     /**
-     *
+     * @param string $endPoint
+     * @return string
      */
     protected function getPath(string $endPoint = '') : string
     {

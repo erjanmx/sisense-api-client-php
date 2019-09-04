@@ -2,7 +2,9 @@
 
 namespace Sisense;
 
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use GuzzleHttp\Exception\GuzzleException;
+use Sisense\Exceptions\SisenseClientException;
 
 /**
  * Class Client
@@ -50,9 +52,10 @@ class Client implements ClientInterface
     /**
      * Client constructor.
      * @param string $baseUrl
+     * @param array $config
      * @param \GuzzleHttp\ClientInterface|null $http
      */
-    public function __construct($baseUrl, \GuzzleHttp\ClientInterface $http = null)
+    public function __construct($baseUrl, array $config = [], \GuzzleHttp\ClientInterface $http = null)
     {
         if (is_null($http)) {
             $http = new \GuzzleHttp\Client();
@@ -60,6 +63,8 @@ class Client implements ClientInterface
 
         $this->http = $http;
         $this->baseUrl = $baseUrl;
+
+        $this->config = array_merge($this->config, $config);
     }
 
     /**
@@ -96,12 +101,9 @@ class Client implements ClientInterface
     }
 
     /**
-     * @param $path
-     * @param array $params
-     * @return array|string
-     * @throws GuzzleException
+     * @inheritDoc
      */
-    public function get($path, array $params = [])
+    public function get($path, array $params = []) : array
     {
         $options['query'] = $params;
 
@@ -109,18 +111,29 @@ class Client implements ClientInterface
     }
 
     /**
-     * HTTP POSTs $params to $path.
-     *
-     * @param string $path
-     * @param mixed $data
-     * @return array
-     * @throws GuzzleException
+     * @inheritDoc
      */
-    public function post($path, $data)
+    public function post(string $path, array $data = []) : array
     {
         $options['form_params'] = $data;
 
         return $this->runRequest($path, 'POST', $options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function put(string $path, array $data = []): array
+    {
+        // TODO: Implement put() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(string $path, array $data = []): array
+    {
+        // TODO: Implement delete() method.
     }
 
     /**
@@ -143,6 +156,31 @@ class Client implements ClientInterface
         $c = 'Sisense\Api\\' . $this->classes[$name];
         $this->apis[$name] = new $c($this);
         return $this->apis[$name];
+    }
+
+    /**
+     * Helper to authenticate
+     *
+     * @param string $username
+     * @param string $password
+     * @throws GuzzleException
+     */
+    public function authenticate(string $username = '', string $password = '')
+    {
+        if ($username) {
+            $this->config['username'] = $username;
+        }
+        if ($password) {
+            $this->config['password'] = $password;
+        }
+
+        if (empty($this->config['username']) || empty($this->config['password'])) {
+            throw new InvalidArgumentException('Credentials not found');
+        }
+
+        $response = $this->authentication->login($this->config['username'], $this->config['password']);
+
+        $this->setAccessToken($response['access_token']);
     }
 
     /**

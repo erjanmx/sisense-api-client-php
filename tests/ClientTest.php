@@ -1,11 +1,10 @@
 <?php
 
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 use Sisense\Client;
 use Sisense\ClientInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class ClientTest
@@ -33,7 +32,7 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers \Sisense\Client
+     * @covers \Sisense\Client::getBaseUrl()
      */
     public function testInitWithBaseUrl()
     {
@@ -41,7 +40,7 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @covers \Sisense\Client
+     * @covers \Sisense\Client::getHttp()
      */
     public function testInitWithDefaultHttpAdapter()
     {
@@ -79,7 +78,7 @@ class ClientTest extends TestCase
             ->with('GET', 'path', ['headers' => ['Authorization' => 'Bearer ' . $token]])
             ->willReturn($requestMock);
 
-        $client = new Client('', $httpMock);
+        $client = new Client('', [], $httpMock);
         $client->setAccessToken($token);
 
         $client->runRequest('path', 'GET');
@@ -113,5 +112,13 @@ class ClientTest extends TestCase
             ->willReturn([]);
 
         $clientMock->post('path', ['foo' => 'bar']);
+    }
+
+    /**
+     * @covers \Sisense\Client::authenticate()
+     */
+    public function testAuthenticate()
+    {
+        $this->markTestIncomplete();
     }
 }
