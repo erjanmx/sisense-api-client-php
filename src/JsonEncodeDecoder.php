@@ -3,9 +3,9 @@
 
 namespace Sisense;
 
-
 /**
  * Trait JsonEncodeDecoder
+ *
  * @package Sisense
  */
 trait JsonEncodeDecoder

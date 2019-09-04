@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class Authentication
+ *
  * @package Sisense\Api
  */
 class Authentication extends AbstractApi
@@ -15,8 +16,8 @@ class Authentication extends AbstractApi
     /**
      * The login endpoint validates passed credentials and returns an API token for subsequent requests to the API.
      *
-     * @param $username
-     * @param $password
+     * @param  $username
+     * @param  $password
      * @return bool
      * @throws GuzzleException
      */
@@ -36,7 +37,7 @@ class Authentication extends AbstractApi
      * The logout endpoint revokes the given user's token, ensuring requests made with it will no longer work.
      * A new token may be generated using the login endpoint.
      *
-     * @param string $collection Collection name to be returned.
+     * @param  string $collection Collection name to be returned.
      * @return array
      * @throws GuzzleException
      */

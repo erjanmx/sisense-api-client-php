@@ -8,6 +8,7 @@ use Sisense\Exceptions\SisenseClientException;
 
 /**
  * Class Client
+ *
  * @package Sisense
  *
  * @property-read Api\Authentication $authentication
@@ -51,8 +52,9 @@ class Client implements ClientInterface
 
     /**
      * Client constructor.
-     * @param string $baseUrl
-     * @param array $config
+     *
+     * @param string                           $baseUrl
+     * @param array                            $config
      * @param \GuzzleHttp\ClientInterface|null $http
      */
     public function __construct($baseUrl, array $config = [], \GuzzleHttp\ClientInterface $http = null)
@@ -79,9 +81,9 @@ class Client implements ClientInterface
     }
 
     /**
-     * @param $path
-     * @param $method
-     * @param array $options
+     * @param  $path
+     * @param  $method
+     * @param  array  $options
      * @return array
      * @throws GuzzleException
      */
@@ -161,8 +163,8 @@ class Client implements ClientInterface
     /**
      * Helper to authenticate
      *
-     * @param string $username
-     * @param string $password
+     * @param  string $username
+     * @param  string $password
      * @throws GuzzleException
      */
     public function authenticate(string $username = '', string $password = '')
@@ -184,7 +186,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * @param string $accessToken
+     * @param  string $accessToken
      * @return $this
      */
     public function setAccessToken(string $accessToken)

@@ -6,6 +6,7 @@ use InvalidArgumentException;
 
 /**
  * Interface ClientInterface
+ *
  * @package Sisense
  */
 interface ClientInterface
@@ -22,8 +23,8 @@ interface ClientInterface
     /**
      * HTTP GETs $params to $path.
      *
-     * @param $path
-     * @param array $params
+     * @param  $path
+     * @param  array $params
      * @return array
      */
     public function get(string $path, array $params = []) : array;
@@ -31,8 +32,8 @@ interface ClientInterface
     /**
      * HTTP POSTs $data to $path.
      *
-     * @param $path
-     * @param $data
+     * @param  $path
+     * @param  $data
      * @return array
      */
     public function post(string $path, array $data = []) : array;
@@ -40,8 +41,8 @@ interface ClientInterface
     /**
      * HTTP PUTs $data to $path.
      *
-     * @param $path
-     * @param $data
+     * @param  $path
+     * @param  $data
      * @return array
      */
     public function put(string $path, array $data = []) : array;
@@ -50,7 +51,7 @@ interface ClientInterface
      * HTTP DELETEs $data to $path.
      *
      * @param string $path
-     * @param mixed $data
+     * @param mixed  $data
      *
      * @return array
      */

@@ -1,5 +1,7 @@
 <?php
 
+namespace Sisense\Tests;
+
 use Sisense\Client;
 use Sisense\ClientInterface;
 use PHPUnit\Framework\TestCase;
@@ -52,7 +54,7 @@ class ClientTest extends TestCase
      */
     public function testFailsOnNotExistApiMethod()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $this->client->api('do_not_exist');
     }

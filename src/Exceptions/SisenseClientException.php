@@ -2,7 +2,13 @@
 
 namespace Sisense\Exceptions;
 
-class SisenseClientException extends \Exception
+use Exception;
+
+/**
+ * Class SisenseClientException
+ * @package Sisense\Exceptions
+ */
+class SisenseClientException extends Exception
 {
 
 }

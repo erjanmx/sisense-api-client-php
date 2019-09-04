@@ -1,5 +1,7 @@
 <?php
 
+namespace Sisense\Tests;
+
 use Sisense\Client;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;

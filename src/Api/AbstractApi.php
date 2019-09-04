@@ -2,10 +2,12 @@
 
 namespace Sisense\Api;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Sisense\Client;
 
 /**
  * Class AbstractApi
+ *
  * @package Sisense\Api
  */
 class AbstractApi implements ApiInterface
@@ -26,11 +28,11 @@ class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param $path
-     * @param null $data
-     * @param array $headers
+     * @param  $path
+     * @param  null  $data
+     * @param  array $headers
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function post($path, $data = null, array $headers = [])
     {
@@ -38,11 +40,11 @@ class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param $path
-     * @param array $params
-     * @param bool $decode
+     * @param  $path
+     * @param  array $params
+     * @param  bool  $decode
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function get($path, array $params = [])
     {
@@ -50,8 +52,8 @@ class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param $path
-     * @param null $data
+     * @param  $path
+     * @param  null $data
      * @return mixed
      */
     public function put($path, $data = null)
@@ -60,8 +62,8 @@ class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param $path
-     * @param null $data
+     * @param  $path
+     * @param  null $data
      * @return mixed
      */
     public function delete($path, $data = null)
@@ -70,7 +72,7 @@ class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string $endPoint
+     * @param  string $endPoint
      * @return string
      */
     protected function getPath(string $endPoint = '') : string

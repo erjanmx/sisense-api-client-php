@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class Application
+ *
  * @package Sisense\Api
  */
 class Application extends AbstractApi
