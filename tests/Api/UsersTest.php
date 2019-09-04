@@ -17,7 +17,7 @@ class UsersTest extends TestCase
     protected $clientMock;
 
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
