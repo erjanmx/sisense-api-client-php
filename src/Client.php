@@ -2,9 +2,8 @@
 
 namespace Sisense;
 
-use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use GuzzleHttp\Exception\GuzzleException;
-use Sisense\Exceptions\SisenseClientException;
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 
 /**
  * Class Client

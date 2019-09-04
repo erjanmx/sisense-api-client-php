@@ -2,8 +2,6 @@
 
 namespace Sisense\Api;
 
-use GuzzleHttp\Exception\GuzzleException;
-
 /**
  * Class Groups
  *
@@ -39,7 +37,6 @@ class Groups extends AbstractApi
      *  ]
      *
      * @return array
-     * @throws GuzzleException
      */
     public function getAll(array $parameters = []) : array
     {
@@ -53,7 +50,6 @@ class Groups extends AbstractApi
      * @param  string $fields
      * @param  string $expand
      * @return array
-     * @throws GuzzleException
      */
     public function getGroup(int $id, string $fields = '', string $expand = '') : array
     {
@@ -76,7 +72,6 @@ class Groups extends AbstractApi
      *          'mail' => (string)
      *      ]
      * @return array
-     * @throws GuzzleException
      */
     public function addGroup(array $group) : array
     {

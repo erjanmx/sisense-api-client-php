@@ -2,7 +2,6 @@
 
 namespace Sisense\Api;
 
-use GuzzleHttp\Exception\GuzzleException;
 use Sisense\Client;
 
 /**
@@ -28,23 +27,15 @@ class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param  $path
-     * @param  null  $data
-     * @param  array $headers
-     * @return mixed
-     * @throws GuzzleException
+     * @inheritDoc
      */
-    public function post($path, $data = null, array $headers = [])
+    public function post($path, $data = null)
     {
         return $this->client->post($path, $data);
     }
 
     /**
-     * @param  $path
-     * @param  array $params
-     * @param  bool  $decode
-     * @return mixed
-     * @throws GuzzleException
+     * @inheritDoc
      */
     public function get($path, array $params = [])
     {
@@ -52,9 +43,7 @@ class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param  $path
-     * @param  null $data
-     * @return mixed
+     * @inheritDoc
      */
     public function put($path, $data = null)
     {
@@ -62,9 +51,7 @@ class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param  $path
-     * @param  null $data
-     * @return mixed
+     * @inheritDoc
      */
     public function delete($path, $data = null)
     {

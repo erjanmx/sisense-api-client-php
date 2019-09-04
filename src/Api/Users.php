@@ -2,8 +2,6 @@
 
 namespace Sisense\Api;
 
-use GuzzleHttp\Exception\GuzzleException;
-
 /**
  * Class Users
  *
@@ -40,7 +38,6 @@ class Users extends AbstractApi
      *  ]
      *
      * @return array
-     * @throws GuzzleException
      */
     public function getAll(array $parameters = []) : array
     {
@@ -54,7 +51,6 @@ class Users extends AbstractApi
      * @param  string $fields
      * @param  string $expand
      * @return array
-     * @throws GuzzleException
      */
     public function getUser(int $id, string $fields = '', string $expand = '') : array
     {
@@ -83,7 +79,6 @@ class Users extends AbstractApi
      *          'password'    => (string) Password.
      *      ]
      * @return array
-     * @throws GuzzleException
      */
     public function addUser(array $user) : array
     {

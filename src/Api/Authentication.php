@@ -2,8 +2,6 @@
 
 namespace Sisense\Api;
 
-use GuzzleHttp\Exception\GuzzleException;
-
 /**
  * Class Authentication
  *
@@ -19,7 +17,6 @@ class Authentication extends AbstractApi
      * @param  $username
      * @param  $password
      * @return bool
-     * @throws GuzzleException
      */
     public function login($username, $password)
     {
@@ -39,7 +36,6 @@ class Authentication extends AbstractApi
      *
      * @param  string $collection Collection name to be returned.
      * @return array
-     * @throws GuzzleException
      */
     public function logout(string $collection = '') : array
     {
