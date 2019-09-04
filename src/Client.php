@@ -106,7 +106,7 @@ class Client implements ClientInterface
     /**
      * @inheritDoc
      */
-    public function get($path, array $params = []) : array
+    public function get(string $path, array $params = []) : array
     {
         $options['query'] = $params;
 
