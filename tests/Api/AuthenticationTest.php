@@ -31,7 +31,7 @@ class AuthenticationTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('authentication/login', 'POST', ['form_params' => ['username' => 'u', 'password' => 'p']])
+            ->with('v1/authentication/login', 'POST', ['form_params' => ['username' => 'u', 'password' => 'p']])
             ->willReturn([]);
 
         $this->clientMock->authentication->login('u', 'p');
@@ -44,7 +44,7 @@ class AuthenticationTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('authentication/logout', 'GET', ['query' => ['collection' => 'c']])
+            ->with('v1/authentication/logout', 'GET', ['query' => ['collection' => 'c']])
             ->willReturn([]);
 
         $this->clientMock->authentication->logout('c');

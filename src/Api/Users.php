@@ -9,7 +9,7 @@ namespace Sisense\Api;
  */
 class Users extends AbstractApi
 {
-    protected $apiGroup = 'users';
+    protected $apiGroup = 'v1/users';
 
     /**
      * The get users endpoint returns a list of users with their details.

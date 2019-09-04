@@ -19,7 +19,7 @@ class ApplicationTest extends TestCase
 
         $mock->expects($this->once())
             ->method('runRequest')
-            ->with('application/status', 'GET')
+            ->with('v1/application/status', 'GET')
             ->willReturn([]);
 
         $mock->application->status();

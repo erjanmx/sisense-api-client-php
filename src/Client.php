@@ -14,16 +14,22 @@ use Doctrine\Instantiator\Exception\InvalidArgumentException;
  * @property-read Api\Users $users
  * @property-read Api\Groups $groups
  * @property-read Api\Application $application
+ * @property-read Api\V09\Authorization $authorization
  */
 class Client implements ClientInterface
 {
     use JsonEncodeDecoder;
 
     private $classes = [
-        'users' => 'Users',
-        'groups' => 'Groups',
-        'application' => 'Application',
-        'authentication' => 'Authentication',
+        'v1' => [
+            'users' => 'Users',
+            'groups' => 'Groups',
+            'application' => 'Application',
+            'authentication' => 'Authentication',
+        ],
+        'v0.9' => [
+            'authorization' => 'V09\Authorization'
+        ]
     ];
 
     /**
@@ -44,7 +50,9 @@ class Client implements ClientInterface
     /**
      * @var array
      */
-    private $config = [];
+    private $config = [
+        'version' => 'v1'
+    ];
 
     /**
      * Client constructor.
@@ -142,17 +150,26 @@ class Client implements ClientInterface
      */
     public function api(string $name)
     {
-        if (!isset($this->classes[$name])) {
-            throw new \InvalidArgumentException('Available api : '.implode(', ', array_keys($this->classes)));
+        $version = $this->config['version'];
+        $versionAndName = sprintf('%s-%s', $version, $name);
+
+        if (!isset($this->classes[$version])) {
+            throw new \InvalidArgumentException('Not supported version');
         }
 
-        if (isset($this->apis[$name])) {
-            return $this->apis[$name];
+        $classes = $this->classes[$version];
+
+        if (!isset($classes[$name])) {
+            throw new \InvalidArgumentException('Available api : '.implode(', ', array_keys($classes)));
         }
 
-        $c = 'Sisense\Api\\' . $this->classes[$name];
-        $this->apis[$name] = new $c($this);
-        return $this->apis[$name];
+        if (isset($this->apis[$versionAndName])) {
+            return $this->apis[$versionAndName];
+        }
+
+        $c = 'Sisense\Api\\' . $classes[$name];
+        $this->apis[$versionAndName] = new $c($this);
+        return $this->apis[$versionAndName];
     }
 
     /**
@@ -204,6 +221,18 @@ class Client implements ClientInterface
     public function getBaseUrl() : string
     {
         return $this->baseUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersionedUrl() : string
+    {
+        if ($this->config['version'] == 'v0.9') {
+            return $this->getBaseUrl();
+        }
+
+        return sprintf('%s/%s/', $this->getBaseUrl(), $this->config['version']);
     }
 
     /**

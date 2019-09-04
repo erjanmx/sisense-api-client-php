@@ -9,7 +9,7 @@ namespace Sisense\Api;
  */
 class Groups extends AbstractApi
 {
-    protected $apiGroup = 'groups';
+    protected $apiGroup = 'v1/groups';
 
     /**
      * Get groups

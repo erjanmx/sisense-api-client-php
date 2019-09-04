@@ -31,7 +31,7 @@ class GroupsTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('groups/', 'GET', ['query' => ['parameters']])
+            ->with('v1/groups/', 'GET', ['query' => ['parameters']])
             ->willReturn([]);
 
         $this->clientMock->groups->getAll(['parameters']);
@@ -44,7 +44,7 @@ class GroupsTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('groups/1', 'GET', ['query' => ['fields' => 'field-1', 'expand' => 'expand']])
+            ->with('v1/groups/1', 'GET', ['query' => ['fields' => 'field-1', 'expand' => 'expand']])
             ->willReturn([]);
 
         $this->clientMock->groups->getGroup(1, 'field-1', 'expand');
@@ -62,7 +62,7 @@ class GroupsTest extends TestCase
 
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('groups/', 'POST', ['form_params' => $group])
+            ->with('v1/groups/', 'POST', ['form_params' => $group])
             ->willReturn([]);
 
         $this->clientMock->groups->addGroup($group);

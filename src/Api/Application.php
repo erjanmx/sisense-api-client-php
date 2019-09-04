@@ -9,7 +9,7 @@ namespace Sisense\Api;
  */
 class Application extends AbstractApi
 {
-    protected $apiGroup = 'application';
+    protected $apiGroup = 'v1/application';
 
     /**
      * Get the application's status.

@@ -31,7 +31,7 @@ class UsersTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('users/', 'GET', ['query' => ['parameters']])
+            ->with('v1/users/', 'GET', ['query' => ['parameters']])
             ->willReturn([]);
 
         $this->clientMock->users->getAll(['parameters']);
@@ -44,7 +44,7 @@ class UsersTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('users/1', 'GET', ['query' => ['fields' => 'field-1', 'expand' => 'expand']])
+            ->with('v1/users/1', 'GET', ['query' => ['fields' => 'field-1', 'expand' => 'expand']])
             ->willReturn([]);
 
         $this->clientMock->users->getUser(1, 'field-1', 'expand');
@@ -63,7 +63,7 @@ class UsersTest extends TestCase
 
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('users/', 'POST', ['form_params' => $user])
+            ->with('v1/users/', 'POST', ['form_params' => $user])
             ->willReturn([]);
 
         $this->clientMock->users->addUser($user);

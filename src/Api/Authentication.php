@@ -9,16 +9,16 @@ namespace Sisense\Api;
  */
 class Authentication extends AbstractApi
 {
-    protected $apiGroup = 'authentication';
+    protected $apiGroup = 'v1/authentication';
 
     /**
      * The login endpoint validates passed credentials and returns an API token for subsequent requests to the API.
      *
      * @param  $username
      * @param  $password
-     * @return bool
+     * @return array
      */
-    public function login($username, $password)
+    public function login($username, $password) : array
     {
         $path = $this->getPath('login');
 
