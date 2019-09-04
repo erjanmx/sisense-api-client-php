@@ -14,6 +14,8 @@ script:
   - find -L . -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
   # Run PHPCS.
   - vendor/bin/phpcs --standard=PSR2 --ignore=./vendor/ .
+  # Run tests
+  - vendor/bin/phpunit
 
 notifications:
   email: false
