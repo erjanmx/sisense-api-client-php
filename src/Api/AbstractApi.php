@@ -30,7 +30,7 @@ class AbstractApi implements ApiInterface
      */
     public function post($path, $data = null, array $headers = [])
     {
-        return $this->client->post($path, $data, $headers);
+        return $this->client->post($path, $data);
     }
 
     /**
@@ -66,10 +66,9 @@ class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string $endPoint
-     * @return mixed
+     *
      */
-    protected function getPath($endPoint = '')
+    protected function getPath(string $endPoint = '') : string
     {
         return sprintf('%s/%s', $this->apiGroup, $endPoint);
     }
