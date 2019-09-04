@@ -29,7 +29,7 @@ class AbstractApi implements ApiInterface
     /**
      * @inheritDoc
      */
-    public function post($path, $data = null)
+    public function post(string $path, $data = null)
     {
         return $this->client->post($path, $data);
     }
@@ -37,7 +37,7 @@ class AbstractApi implements ApiInterface
     /**
      * @inheritDoc
      */
-    public function get($path, array $params = [])
+    public function get(string $path, array $params = [])
     {
         return $this->client->get($path, $params);
     }
@@ -45,7 +45,7 @@ class AbstractApi implements ApiInterface
     /**
      * @inheritDoc
      */
-    public function put($path, $data = null)
+    public function put(string $path, $data = null)
     {
         return $this->client->put($path, $data);
     }
@@ -53,7 +53,7 @@ class AbstractApi implements ApiInterface
     /**
      * @inheritDoc
      */
-    public function delete($path, $data = null)
+    public function delete(string $path, $data = null)
     {
         return $this->client->delete($path, $data);
     }

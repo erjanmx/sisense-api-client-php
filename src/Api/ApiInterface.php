@@ -12,10 +12,10 @@ interface ApiInterface
 {
     /**
      * @param string $path
-     * @param array $data
+     * @param null $data
      * @return mixed
      */
-    public function post(string $path, array $data = []);
+    public function post(string $path, $data = null);
 
     /**
      * @param  $path
