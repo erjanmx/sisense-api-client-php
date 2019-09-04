@@ -140,13 +140,9 @@ class Client implements ClientInterface
     }
 
     /**
-     * @param string $name
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return Api\AbstractApi
+     * @inheritDoc
      */
-    public function api($name)
+    public function api(string $name)
     {
         if (!isset($this->classes[$name])) {
             throw new \InvalidArgumentException('Available api : '.implode(', ', array_keys($this->classes)));
