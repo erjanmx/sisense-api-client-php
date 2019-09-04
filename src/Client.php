@@ -13,6 +13,7 @@ use Sisense\Exceptions\SisenseClientException;
  *
  * @property-read Api\Authentication $authentication
  * @property-read Api\Users $users
+ * @property-read Api\Groups $groups
  * @property-read Api\Application $application
  */
 class Client implements ClientInterface
@@ -21,6 +22,7 @@ class Client implements ClientInterface
 
     private $classes = [
         'users' => 'Users',
+        'groups' => 'Groups',
         'application' => 'Application',
         'authentication' => 'Authentication',
     ];
