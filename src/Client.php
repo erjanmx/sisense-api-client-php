@@ -37,11 +37,6 @@ class Client implements ClientInterface
     private $baseUrl;
 
     /**
-     * @var string
-     */
-    private $accessToken = null;
-
-    /**
      * @var array APIs
      */
     private $apis = [];
@@ -67,7 +62,10 @@ class Client implements ClientInterface
         $this->http = $http;
         $this->baseUrl = $baseUrl;
 
-        $this->config = array_merge($this->config, $config);
+        $this->config = array_merge([
+            'version' => 'v1',
+            'access_token' => '',
+        ], $config);
     }
 
     /**
@@ -90,9 +88,9 @@ class Client implements ClientInterface
      */
     public function runRequest($path, $method, $options = [])
     {
-        if ($this->accessToken && empty($options['headers'])) {
+        if (!empty($this->config['access_token']) && empty($options['headers'])) {
             $options['headers'] = [
-                'Authorization' => 'Bearer ' . $this->accessToken,
+                'Authorization' => 'Bearer ' . $this->config['access_token'],
             ];
         }
 
@@ -179,16 +177,23 @@ class Client implements ClientInterface
 
         $response = $this->authentication->login($this->config['username'], $this->config['password']);
 
-        $this->setAccessToken($response['access_token']);
+        $this->useAccessToken($response['access_token']);
+    }
+
+    public function useVersion($version)
+    {
+        $this->config['version'] = $version;
+
+        return $this;
     }
 
     /**
      * @param  string $accessToken
      * @return $this
      */
-    public function setAccessToken(string $accessToken)
+    public function useAccessToken(string $accessToken)
     {
-        $this->accessToken = $accessToken;
+        $this->config['access_token'] = $accessToken;
 
         return $this;
     }

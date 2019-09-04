@@ -82,7 +82,7 @@ class ClientTest extends TestCase
             ->willReturn($requestMock);
 
         $client = new Client('', [], $httpMock);
-        $client->setAccessToken($token);
+        $client->useAccessToken($token);
 
         $client->runRequest('path', 'GET');
     }
