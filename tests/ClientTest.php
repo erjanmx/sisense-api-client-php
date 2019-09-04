@@ -19,7 +19,7 @@ class ClientTest extends TestCase
      */
     protected $client;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
