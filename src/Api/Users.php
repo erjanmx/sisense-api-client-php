@@ -72,16 +72,16 @@ class Users extends AbstractApi
      * Adds a new user.
      *
      * @param  array $user Array containing the necessary params.
-     *                     $user = [
-     *                     'email'       => (string) Email.
-     *                     'userName'    => (string) Username.
-     *                     'firstName'   => (string) First name.
-     *                     'lastName'    => (string) Last name.
-     *                     'roleId'      => (string) Role ID.
-     *                     'groups'      => (array)
-     *                     'preferences' => (string)
-     *                     'password'    => (string) Password.
-     *                     ]
+     *      $user = [
+     *          'email'       => (string) Email.
+     *          'userName'    => (string) Username.
+     *          'firstName'   => (string) First name.
+     *          'lastName'    => (string) Last name.
+     *          'roleId'      => (string) Role ID.
+     *          'groups'      => (array)
+     *          'preferences' => (string)
+     *          'password'    => (string) Password.
+     *      ]
      * @return array
      * @throws GuzzleException
      */

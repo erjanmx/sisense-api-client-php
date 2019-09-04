@@ -4,6 +4,7 @@ namespace Sisense\Tests;
 
 use Sisense\Client;
 use Sisense\ClientInterface;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ResponseInterface;
