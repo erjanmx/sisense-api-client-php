@@ -51,7 +51,8 @@ class Client implements ClientInterface
      * @var array
      */
     private $config = [
-        'version' => 'v1'
+        'version' => '',
+        'defaultVersion' => 'v1'
     ];
 
     /**
@@ -71,8 +72,9 @@ class Client implements ClientInterface
         $this->baseUrl = $baseUrl;
 
         $this->config = array_merge([
-            'version' => 'v1',
+            'version' => '',
             'access_token' => '',
+            'defaultVersion' => 'v1',
         ], $config);
     }
 
@@ -150,8 +152,11 @@ class Client implements ClientInterface
      */
     public function api(string $name)
     {
-        $version = $this->config['version'];
-        $versionAndName = sprintf('%s-%s', $version, $name);
+        // use one-call version or default one
+        $version = $this->config['version'] ?: $this->config['defaultVersion'];
+
+        // version & name memoization key
+        $vn = sprintf('%s-%s', $version, $name);
 
         if (!isset($this->classes[$version])) {
             throw new \InvalidArgumentException('Not supported version');
@@ -163,13 +168,16 @@ class Client implements ClientInterface
             throw new \InvalidArgumentException('Available api : '.implode(', ', array_keys($classes)));
         }
 
-        if (isset($this->apis[$versionAndName])) {
-            return $this->apis[$versionAndName];
+        // clear one-call version
+        $this->config['version'] = '';
+
+        if (isset($this->apis[$vn])) {
+            return $this->apis[$vn];
         }
 
         $c = 'Sisense\Api\\' . $classes[$name];
-        $this->apis[$versionAndName] = new $c($this);
-        return $this->apis[$versionAndName];
+        $this->apis[$vn] = new $c($this);
+        return $this->apis[$vn];
     }
 
     /**
@@ -192,14 +200,25 @@ class Client implements ClientInterface
             throw new InvalidArgumentException('Credentials not found');
         }
 
-        $response = $this->authentication->login($this->config['username'], $this->config['password']);
+        $response = $this->v('v1')->authentication->login($this->config['username'], $this->config['password']);
 
         $this->useAccessToken($response['access_token']);
     }
 
-    public function useVersion($version)
+    /**
+     * Change API version
+     *
+     * @param $version
+     * @param bool $setAsDefault
+     * @return $this
+     */
+    public function v($version, $setAsDefault = false)
     {
         $this->config['version'] = $version;
+
+        if ($setAsDefault) {
+            $this->config['defaultVersion'] = $version;
+        }
 
         return $this;
     }
@@ -221,18 +240,6 @@ class Client implements ClientInterface
     public function getBaseUrl() : string
     {
         return $this->baseUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getVersionedUrl() : string
-    {
-        if ($this->config['version'] == 'v0.9') {
-            return $this->getBaseUrl();
-        }
-
-        return sprintf('%s/%s/', $this->getBaseUrl(), $this->config['version']);
     }
 
     /**
