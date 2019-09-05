@@ -245,7 +245,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * Shortcut of @useVersion
+     * Alias for @useVersion
      *
      * @param $version
      * @param bool $setAsDefault

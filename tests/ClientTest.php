@@ -5,6 +5,7 @@ namespace Sisense\Tests;
 use Sisense\Client;
 use Sisense\ClientInterface;
 use InvalidArgumentException;
+use Sisense\Api\Authentication;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -23,7 +24,7 @@ class ClientTest extends TestCase
     {
         parent::setUp();
 
-        $this->client = new Client('http://localhost/v1/');
+        $this->client = new Client('http://localhost/');
     }
 
     /**
@@ -39,7 +40,7 @@ class ClientTest extends TestCase
      */
     public function testInitWithBaseUrl()
     {
-        $this->assertSame('http://localhost/v1/', $this->client->getBaseUrl());
+        $this->assertSame('http://localhost/', $this->client->getBaseUrl());
     }
 
     /**
@@ -120,8 +121,88 @@ class ClientTest extends TestCase
     /**
      * @covers \Sisense\Client::authenticate()
      */
-    public function testAuthenticate()
+    public function testAuthenticateFailsWithNoCredentials()
     {
-        $this->markTestIncomplete();
+        $client = new Client('http://localhost/');
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $client->authenticate();
+    }
+
+    /**
+     * @covers \Sisense\Client::authenticate()
+     */
+    public function testAuthenticateWithSpecifiedCredentials()
+    {
+        $clientMock = $this->createPartialMock(Client::class, ['v', 'api', 'useAccessToken']);
+        $authenticationMock = $this->createPartialMock(Authentication::class, ['login']);
+
+        $authenticationMock->expects($this->once())
+            ->method('login')
+            ->with('u', 'p')
+            ->willReturn([
+                'access_token' => 't'
+            ]);
+
+        $clientMock->expects($this->once())
+            ->method('api')
+            ->with('authentication')
+            ->willReturn($authenticationMock);
+
+        $clientMock->expects($this->once())
+            ->method('v')
+            ->with('v1')
+            ->willReturn($clientMock);
+
+        $clientMock->expects($this->once())
+            ->method('useAccessToken')
+            ->with('t');
+
+        $clientMock->authenticate('u', 'p');
+    }
+
+    /**
+     * @covers \Sisense\Client::api()
+     */
+    public function testFailsOnNotSupportedVersion()
+    {
+        $client = new Client('http://localhost/');
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $client->v('not_existent_version')->users;
+    }
+
+    /**
+     * @covers \Sisense\Client::api()
+     */
+    public function testApiUsesOnCallVersion()
+    {
+        $client = new Client('http://localhost/', [
+            'default_version' => 'v1',
+        ]);
+
+        // uses v0.9 for one call only
+        $authorization = $client->v('v0.9')->authorization;
+
+        // and then switches back to default version
+        $authentication = $client->authentication;
+
+        $this->assertInstanceOf(\Sisense\Api\V09\Authorization::class, $authorization);
+        $this->assertInstanceOf(\Sisense\Api\Authentication::class, $authentication);
+    }
+
+    /**
+     * @covers \Sisense\Client::api()
+     */
+    public function testApiCachesPreviousCall()
+    {
+        $client = new Client('http://localhost/');
+
+        $users_1 = $client->users;
+        $users_2 = $client->users;
+
+        $this->assertSame($users_1, $users_2);
     }
 }
