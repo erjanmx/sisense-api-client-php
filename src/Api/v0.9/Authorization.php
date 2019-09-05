@@ -18,7 +18,7 @@ class Authorization extends AbstractApi
      *
      * @return array
      */
-    public function isauth() : array
+    public function isAuth() : array
     {
         $path = $this->getPath('isauth');
 

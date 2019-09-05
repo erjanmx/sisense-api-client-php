@@ -45,14 +45,15 @@ class Client implements ClientInterface
     /**
      * @var array APIs
      */
-    private $apis = [];
+    private $cache = [];
 
     /**
      * @var array
      */
     private $config = [
-        'version' => '',
-        'defaultVersion' => 'v1'
+        'v' => '', // one-call version
+        'access_token' => '',
+        'default_version' => 'v1'
     ];
 
     /**
@@ -71,11 +72,7 @@ class Client implements ClientInterface
         $this->http = $http;
         $this->baseUrl = $baseUrl;
 
-        $this->config = array_merge([
-            'version' => '',
-            'access_token' => '',
-            'defaultVersion' => 'v1',
-        ], $config);
+        $this->config = array_merge($this->config, $config);
     }
 
     /**
@@ -153,10 +150,7 @@ class Client implements ClientInterface
     public function api(string $name)
     {
         // use one-call version or default one
-        $version = $this->config['version'] ?: $this->config['defaultVersion'];
-
-        // version & name memoization key
-        $vn = sprintf('%s-%s', $version, $name);
+        $version = $this->config['v'] ?: $this->config['default_version'];
 
         if (!isset($this->classes[$version])) {
             throw new \InvalidArgumentException('Not supported version');
@@ -169,15 +163,16 @@ class Client implements ClientInterface
         }
 
         // clear one-call version
-        $this->config['version'] = '';
+        $this->config['v'] = '';
 
-        if (isset($this->apis[$vn])) {
-            return $this->apis[$vn];
+        $vn = sprintf('%s-%s', $version, $name);
+        if (isset($this->cache[$vn])) {
+            return $this->cache[$vn];
         }
 
         $c = 'Sisense\Api\\' . $classes[$name];
-        $this->apis[$vn] = new $c($this);
-        return $this->apis[$vn];
+        $this->cache[$vn] = new $c($this);
+        return $this->cache[$vn];
     }
 
     /**
@@ -185,7 +180,6 @@ class Client implements ClientInterface
      *
      * @param  string $username
      * @param  string $password
-     * @throws GuzzleException
      */
     public function authenticate(string $username = '', string $password = '')
     {
@@ -212,9 +206,9 @@ class Client implements ClientInterface
      * @param bool $setAsDefault
      * @return $this
      */
-    public function v($version, $setAsDefault = false)
+    public function useVersion($version, $setAsDefault = false)
     {
-        $this->config['version'] = $version;
+        $this->config['v'] = $version;
 
         if ($setAsDefault) {
             $this->config['defaultVersion'] = $version;
@@ -248,5 +242,17 @@ class Client implements ClientInterface
     public function getHttp() : \GuzzleHttp\ClientInterface
     {
         return $this->http;
+    }
+
+    /**
+     * Shortcut of @useVersion
+     *
+     * @param $version
+     * @param bool $setAsDefault
+     * @return $this
+     */
+    public function v($version, $setAsDefault = false)
+    {
+        return $this->useVersion($version, $setAsDefault);
     }
 }

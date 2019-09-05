@@ -23,7 +23,7 @@ class AuthorizationTest extends TestCase
 
         $this->clientMock = $this->createPartialMock(Client::class, ['runRequest']);
 
-        $this->clientMock->v('v0.9');
+        $this->clientMock->useVersion('v0.9', true);
     }
 
     /**
@@ -36,7 +36,7 @@ class AuthorizationTest extends TestCase
             ->with('auth/isauth', 'GET')
             ->willReturn([]);
 
-        $this->clientMock->authorization->isauth();
+        $this->clientMock->authorization->isAuth();
     }
 
     /**
