@@ -11,7 +11,7 @@ use Sisense\Client;
  */
 class AbstractApi implements ApiInterface
 {
-    protected $apiGroup = '';
+    protected $resourcePath = '';
 
     /**
      * @var Client
@@ -64,6 +64,6 @@ class AbstractApi implements ApiInterface
      */
     protected function getPath(string $endPoint = '') : string
     {
-        return sprintf('%s/%s', $this->apiGroup, $endPoint);
+        return sprintf('%s/%s', $this->resourcePath, $endPoint);
     }
 }

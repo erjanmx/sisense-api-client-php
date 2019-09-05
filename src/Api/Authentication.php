@@ -9,7 +9,7 @@ namespace Sisense\Api;
  */
 class Authentication extends AbstractApi
 {
-    protected $apiGroup = 'v1/authentication';
+    protected $resourcePath = 'v1/authentication';
 
     /**
      * The login endpoint validates passed credentials and returns an API token for subsequent requests to the API.

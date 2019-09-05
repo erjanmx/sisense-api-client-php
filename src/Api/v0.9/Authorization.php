@@ -11,7 +11,7 @@ use Sisense\Api\AbstractApi;
  */
 class Authorization extends AbstractApi
 {
-    protected $apiGroup = 'auth';
+    protected $resourcePath = 'auth';
 
     /**
      * Indicates if current user is logged in.
