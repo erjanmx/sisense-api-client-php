@@ -119,6 +119,36 @@ class ClientTest extends TestCase
     }
 
     /**
+     * @covers \Sisense\Client::put()
+     */
+    public function testPut()
+    {
+        $clientMock = $this->createPartialMock(Client::class, ['runRequest']);
+
+        $clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with('path', 'PUT', ['foo' => 'bar'])
+            ->willReturn([]);
+
+        $clientMock->put('path', ['foo' => 'bar']);
+    }
+
+    /**
+     * @covers \Sisense\Client::delete()
+     */
+    public function testDelete()
+    {
+        $clientMock = $this->createPartialMock(Client::class, ['runRequest']);
+
+        $clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with('path', 'DELETE', ['foo' => 'bar'])
+            ->willReturn([]);
+
+        $clientMock->delete('path', ['foo' => 'bar']);
+    }
+
+    /**
      * @covers \Sisense\Client::authenticate()
      */
     public function testAuthenticateFailsWithNoCredentials()

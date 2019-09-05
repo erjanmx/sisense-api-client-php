@@ -133,7 +133,7 @@ class Client implements ClientInterface
      */
     public function put(string $path, array $data = []): array
     {
-        // TODO: Implement put() method.
+        return $this->runRequest($path, 'PUT', $data);
     }
 
     /**
@@ -141,7 +141,7 @@ class Client implements ClientInterface
      */
     public function delete(string $path, array $data = []): array
     {
-        // TODO: Implement delete() method.
+        return $this->runRequest($path, 'DELETE', $data);
     }
 
     /**
