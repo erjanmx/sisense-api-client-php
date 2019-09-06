@@ -15,7 +15,7 @@ interface ApiInterface
      * @param null $data
      * @return mixed
      */
-    public function post(string $path, $data = null);
+    public function post(string $path, array $data = []);
 
     /**
      * @param  $path
@@ -29,12 +29,12 @@ interface ApiInterface
      * @param  null $data
      * @return mixed
      */
-    public function put(string $path, $data = null);
+    public function put(string $path, array $data = []);
 
     /**
      * @param  $path
      * @param  null $data
      * @return mixed
      */
-    public function delete(string $path, $data = null);
+    public function delete(string $path, array $data = []);
 }

@@ -16,6 +16,9 @@ use Doctrine\Instantiator\Exception\InvalidArgumentException;
  * @property-read Api\Application $application
  * @property-read Api\V09\Authorization $authorization
  * @property-read Api\V09\ElastiCubes $elastiCubes
+ * @property-read Api\V09\Branding $branding
+ * @property-read Api\V09\Reporting $reporting
+ * @property-read Api\V09\Palettes $palettes
  */
 class Client implements ClientInterface
 {
@@ -25,6 +28,9 @@ class Client implements ClientInterface
         'v0.9' => [
             'authorization' => 'V09\Authorization',
             'elastiCubes' => 'V09\ElastiCubes',
+            'branding' => 'V09\Branding',
+            'reporting' => 'V09\Reporting',
+            'palettes' => 'V09\Palettes',
         ],
         'v1.0' => [
             'users' => 'Users',
