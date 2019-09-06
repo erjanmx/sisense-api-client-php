@@ -79,4 +79,19 @@ class PalettesTest extends TestCase
 
         $this->clientMock->palettes->deletePalette('p');
     }
+
+    /**
+     * @covers \Sisense\Api\V09\Palettes::updatePalette()
+     */
+    public function testUpdatePalette()
+    {
+        $parameters = ['foo' => 'bar'];
+
+        $this->clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with('palettes/p', 'PUT', $parameters)
+            ->willReturn([]);
+
+        $this->clientMock->palettes->updatePalette('p', $parameters);
+    }
 }
