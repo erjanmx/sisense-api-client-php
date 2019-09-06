@@ -22,7 +22,7 @@ class ElastiCubes extends AbstractApi
      * @param string $sortBy The order in which the ElastiCubes appear in the response.
      * @return array
      */
-    public function getAllMetaData(string $q, string $sortBy) : array
+    public function getAllMetaData(string $q = '', string $sortBy = '') : array
     {
         $path = $this->getPath('metadata');
         

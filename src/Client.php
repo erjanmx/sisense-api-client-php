@@ -15,21 +15,23 @@ use Doctrine\Instantiator\Exception\InvalidArgumentException;
  * @property-read Api\Groups $groups
  * @property-read Api\Application $application
  * @property-read Api\V09\Authorization $authorization
+ * @property-read Api\V09\ElastiCubes $elastiCubes
  */
 class Client implements ClientInterface
 {
     use JsonEncodeDecoder;
 
     private $classes = [
-        'v1' => [
+        'v0.9' => [
+            'authorization' => 'V09\Authorization',
+            'elastiCubes' => 'V09\ElastiCubes',
+        ],
+        'v1.0' => [
             'users' => 'Users',
             'groups' => 'Groups',
             'application' => 'Application',
             'authentication' => 'Authentication',
         ],
-        'v0.9' => [
-            'authorization' => 'V09\Authorization'
-        ]
     ];
 
     /**
@@ -53,7 +55,7 @@ class Client implements ClientInterface
     private $config = [
         'v' => '', // one-call version
         'access_token' => '',
-        'default_version' => 'v1'
+        'default_version' => 'v1.0'
     ];
 
     /**

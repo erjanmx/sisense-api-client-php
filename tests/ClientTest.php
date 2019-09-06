@@ -210,7 +210,7 @@ class ClientTest extends TestCase
     public function testApiUsesOnCallVersion()
     {
         $client = new Client('http://localhost/', [
-            'default_version' => 'v1',
+            'default_version' => 'v1.0',
         ]);
 
         // uses v0.9 for one call only
