@@ -97,10 +97,8 @@ class Client implements ClientInterface
      */
     public function runRequest($path, $method, $options = [])
     {
-        if (!empty($this->config['access_token']) && empty($options['headers'])) {
-            $options['headers'] = [
-                'Authorization' => 'Bearer ' . $this->config['access_token'],
-            ];
+        if (!empty($this->config['access_token']) && empty($options['headers']['Authorization'])) {
+            $options['headers']['Authorization'] = 'Bearer ' . $this->config['access_token'];
         }
 
         $response = $this->http->request($method, $this->baseUrl . $path, $options);

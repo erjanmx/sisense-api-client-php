@@ -89,6 +89,38 @@ class ClientTest extends TestCase
     }
 
     /**
+     * @covers \Sisense\Client::runRequest()
+     */
+    public function testRunRequestDoesntAddAuthorizationHeaderIfSpecified()
+    {
+        $token = 'token';
+
+        $httpMock = $this->createMock(\GuzzleHttp\ClientInterface::class);
+        $requestMock = $this->createMock(ResponseInterface::class);
+        $bodyMock = $this->createMock(StreamInterface::class);
+
+        $requestMock
+            ->expects($this->once())
+            ->method('getBody')
+            ->willReturn($bodyMock);
+        $httpMock
+            ->expects($this->once())
+            ->method('request')
+            ->with('GET', 'path', ['headers' => [
+                'User-Agent' => 'Browser',
+                'Authorization' => 'BEARER OLD_TOKEN']
+            ])
+            ->willReturn($requestMock);
+
+        $client = new Client('', [], $httpMock);
+        $client->useAccessToken($token);
+
+        $client->runRequest('path', 'GET', [
+            'headers' => ['User-Agent' => 'Browser', 'Authorization' => 'BEARER OLD_TOKEN']
+        ]);
+    }
+
+    /**
      * @covers \Sisense\Client::get()
      */
     public function testGet()
