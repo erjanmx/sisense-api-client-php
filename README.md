@@ -9,7 +9,7 @@ https://developers.sisense.com/display/API2/REST+API+Reference+-+v1.0
   $config = [
     'username' => 'u',
     'password' => 'p',
-    'default_version' => 'v1',
+    'default_version' => 'v1.0',
   ];
   $client = new \Sisense\Client('https://sisense-host/api/', $config);
   
