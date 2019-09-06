@@ -226,6 +226,25 @@ class ClientTest extends TestCase
     /**
      * @covers \Sisense\Client::api()
      */
+    public function testUseVersionWithSetAsDefault()
+    {
+        $client = new Client('http://localhost/', [
+            'default_version' => 'v1.0',
+        ]);
+
+        $setAsDefault = true;
+        // uses v0.9
+        $client->v('v0.9', $setAsDefault)->authorization;
+
+        // and stays on that version
+        $authorization = $client->authorization;
+
+        $this->assertInstanceOf(\Sisense\Api\V09\Authorization::class, $authorization);
+    }
+
+    /**
+     * @covers \Sisense\Client::api()
+     */
     public function testApiCachesPreviousCall()
     {
         $client = new Client('http://localhost/');
