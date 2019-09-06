@@ -213,7 +213,7 @@ class Client implements ClientInterface
         $this->config['v'] = $version;
 
         if ($setAsDefault) {
-            $this->config['defaultVersion'] = $version;
+            $this->config['default_version'] = $version;
         }
 
         return $this;
