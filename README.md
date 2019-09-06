@@ -24,7 +24,10 @@ https://developers.sisense.com/display/API2/REST+API+Reference+-+v1.0
 
 #### v0.9
 - Authorization
+- Branding
 - ElastiCubes
+- Palettes
+- Reporting
 
 #### v1.0
 - Users
