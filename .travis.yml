@@ -17,5 +17,10 @@ script:
   # Run tests
   - vendor/bin/phpunit
 
+## Cache composer bits
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
 notifications:
   email: false
