@@ -11,7 +11,7 @@ use Doctrine\Instantiator\Exception\InvalidArgumentException;
  * @package Sisense
  *
  * @property-read Api\Authentication $authentication
- * @property-read Api\Users $users
+ * @property-read Api\Users|Api\V09\Users $users
  * @property-read Api\Groups $groups
  * @property-read Api\Application $application
  * @property-read Api\V09\Authorization $authorization
@@ -31,6 +31,7 @@ class Client implements ClientInterface
             'branding' => 'V09\Branding',
             'reporting' => 'V09\Reporting',
             'palettes' => 'V09\Palettes',
+            'users' => 'V09\Users',
         ],
         'v1.0' => [
             'users' => 'Users',

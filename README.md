@@ -28,6 +28,7 @@ https://developers.sisense.com/display/API2/REST+API+Reference+-+v1.0
 - ElastiCubes
 - Palettes
 - Reporting
+- Users
 
 #### v1.0
 - Users
