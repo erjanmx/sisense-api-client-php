@@ -56,4 +56,14 @@ interface ClientInterface
      * @return array
      */
     public function delete(string $path, array $data = []) : array;
+
+    /**
+     * HTTP PATCHes $data to $path.
+     *
+     * @param string $path
+     * @param mixed  $data
+     *
+     * @return array
+     */
+    public function patch(string $path, array $data = []) : array;
 }

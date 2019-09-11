@@ -154,6 +154,14 @@ class Client implements ClientInterface
     /**
      * @inheritDoc
      */
+    public function patch(string $path, array $data = []): array
+    {
+        return $this->runRequest($path, 'PATCH', $data);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function api(string $name)
     {
         // use one-call version or default one

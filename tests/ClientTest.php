@@ -181,6 +181,21 @@ class ClientTest extends TestCase
     }
 
     /**
+     * @covers \Sisense\Client::patch()
+     */
+    public function testPatch()
+    {
+        $clientMock = $this->createPartialMock(Client::class, ['runRequest']);
+
+        $clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with('path', 'PATCH', ['foo' => 'bar'])
+            ->willReturn([]);
+
+        $clientMock->patch('path', ['foo' => 'bar']);
+    }
+
+    /**
      * @covers \Sisense\Client::authenticate()
      */
     public function testAuthenticateFailsWithNoCredentials()

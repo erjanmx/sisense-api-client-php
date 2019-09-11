@@ -47,41 +47,104 @@ class Users extends AbstractApi
     /**
      * Get a specific user.
      *
-     * @param  int    $id
-     * @param  string $fields
-     * @param  string $expand
+     * @param int $id
+     * @param array $parameters
      * @return array
      */
-    public function getUser(int $id, string $fields = '', string $expand = '') : array
+    public function getUser(int $id, array $parameters = []) : array
     {
         $path = $this->getPath($id);
 
-        $params = [
-            'fields' => $fields,
-            'expand' => $expand,
-        ];
-
-        return $this->get($path, $params);
+        return $this->get($path, $parameters);
     }
 
     /**
      * Adds a new user.
      *
-     * @param  array $user Array containing the necessary params.
-     *      $user = [
-     *          'email'       => (string) Email.
-     *          'userName'    => (string) Username.
-     *          'firstName'   => (string) First name.
-     *          'lastName'    => (string) Last name.
-     *          'roleId'      => (string) Role ID.
-     *          'groups'      => (array)
-     *          'preferences' => (string)
-     *          'password'    => (string) Password.
-     *      ]
+     * @param array $user
      * @return array
      */
     public function addUser(array $user) : array
     {
         return $this->post($this->getPath(), $user);
+    }
+
+    /**
+     * Add a new Active Directory user
+     *
+     * @param array $adUser
+     * @return array
+     */
+    public function addADUser(array $adUser) : array
+    {
+        $path = $this->getPath('ad');
+
+        return $this->post($path, $adUser);
+    }
+
+    /**
+     * Add several users at once.
+     *
+     * @param array $users
+     * @return array
+     */
+    public function addBulk(array $users) : array
+    {
+        $path = $this->getPath('bulk');
+
+        return $this->post($path, $users);
+    }
+
+    /**
+     * Bulk add Active Directory users
+     *
+     * @param array $adUsers
+     * @return array
+     */
+    public function addADBulk(array $adUsers) : array
+    {
+        $path = $this->getPath('ad/bulk');
+
+        return $this->post($path, $adUsers);
+    }
+
+    /**
+     * Update a user
+     *
+     * @param int $id
+     * @param array $parameters
+     * @return array
+     */
+    public function updateUser(int $id, array $parameters) : array
+    {
+        $path = $this->getPath($id);
+
+        return $this->patch($path, $parameters);
+    }
+
+    /**
+     * Delete multiple users
+     *
+     * @param array $parameters
+     * @return array
+     */
+    public function deleteUsers(array $parameters): array
+    {
+        $path = $this->getPath('bulk');
+
+        return $this->delete($path, $parameters);
+    }
+
+    /**
+     * Delete a user
+     *
+     * @param int $id
+     * @return array
+     */
+    public function deleteUser(int $id) : array
+    {
+        $path = $this->getPath($id);
+
+        return $this->delete($path);
     }
 }

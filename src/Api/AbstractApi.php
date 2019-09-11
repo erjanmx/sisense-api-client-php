@@ -59,6 +59,14 @@ class AbstractApi implements ApiInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function patch(string $path, array $data = [])
+    {
+        return $this->client->patch($path, $data);
+    }
+
+    /**
      * @param  string $endPoint
      * @return string
      */

@@ -47,7 +47,7 @@ class UsersTest extends TestCase
             ->with('v1/users/1', 'GET', ['query' => ['fields' => 'field-1', 'expand' => 'expand']])
             ->willReturn([]);
 
-        $this->clientMock->users->getUser(1, 'field-1', 'expand');
+        $this->clientMock->users->getUser(1, ['fields' => 'field-1', 'expand' => 'expand']);
     }
 
     /**
@@ -67,5 +67,83 @@ class UsersTest extends TestCase
             ->willReturn([]);
 
         $this->clientMock->users->addUser($user);
+    }
+
+    /**
+     * @covers \Sisense\Api\Users::addADUser()
+     */
+    public function testAddADUser()
+    {
+        $this->clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with('v1/users/ad', 'POST', ['form_params' => ['foo' => 'bar']])
+            ->willReturn([]);
+
+        $this->clientMock->users->addADUser(['foo' => 'bar']);
+    }
+
+    /**
+     * @covers \Sisense\Api\Users::addBulk()
+     */
+    public function testAddBulk()
+    {
+        $this->clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with('v1/users/bulk', 'POST', ['form_params' => ['foo' => 'bar']])
+            ->willReturn([]);
+
+        $this->clientMock->users->addBulk(['foo' => 'bar']);
+    }
+
+    /**
+     * @covers \Sisense\Api\Users::addADBulk()
+     */
+    public function testAddADBulk()
+    {
+        $this->clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with('v1/users/ad/bulk', 'POST', ['form_params' => ['foo' => 'bar']])
+            ->willReturn([]);
+
+        $this->clientMock->users->addADBulk(['foo' => 'bar']);
+    }
+
+    /**
+     * @covers \Sisense\Api\Users::updateUser()
+     */
+    public function testUpdateUser()
+    {
+        $this->clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with('v1/users/1', 'PATCH', ['foo' => 'bar'])
+            ->willReturn([]);
+
+        $this->clientMock->users->updateUser(1, ['foo' => 'bar']);
+    }
+
+    /**
+     * @covers \Sisense\Api\Users::deleteUsers()
+     */
+    public function testDeleteUsers()
+    {
+        $this->clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with('v1/users/bulk', 'DELETE', ['foo' => 'bar'])
+            ->willReturn([]);
+
+        $this->clientMock->users->deleteUsers(['foo' => 'bar']);
+    }
+
+    /**
+     * @covers \Sisense\Api\Users::deleteUser()
+     */
+    public function testDeleteUser()
+    {
+        $this->clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with('v1/users/1', 'DELETE')
+            ->willReturn([]);
+
+        $this->clientMock->users->deleteUser(1);
     }
 }
