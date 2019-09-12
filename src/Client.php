@@ -12,13 +12,15 @@ use Doctrine\Instantiator\Exception\InvalidArgumentException;
  *
  * @property-read Api\Authentication $authentication
  * @property-read Api\Users|Api\V09\Users $users
- * @property-read Api\Groups $groups
+ * @property-read Api\Groups|Api\V09\Groups $groups
  * @property-read Api\Application $application
  * @property-read Api\V09\Authorization $authorization
  * @property-read Api\V09\ElastiCubes $elastiCubes
  * @property-read Api\V09\Branding $branding
  * @property-read Api\V09\Reporting $reporting
  * @property-read Api\V09\Palettes $palettes
+ * @property-read Api\V09\Settings $settings
+ * @property-read Api\V09\Roles $roles
  */
 class Client implements ClientInterface
 {
@@ -32,6 +34,9 @@ class Client implements ClientInterface
             'reporting' => 'V09\Reporting',
             'palettes' => 'V09\Palettes',
             'users' => 'V09\Users',
+            'groups' => 'V09\Groups',
+            'settings' => 'V09\Settings',
+            'roles' => 'V09\Roles',
         ],
         'v1.0' => [
             'users' => 'Users',

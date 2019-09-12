@@ -29,6 +29,9 @@ https://developers.sisense.com/display/API2/REST+API+Reference+-+v1.0
 - Palettes
 - Reporting
 - Users
+- Groups
+- Settings
+- Roles
 
 #### v1.0
 - Users
