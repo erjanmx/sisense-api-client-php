@@ -278,26 +278,4 @@ class ElastiCubesTest extends BaseApiTest
 
         $this->clientMock->elastiCubes->deleteAllPermissions('s', 'c', 't', 'c');
     }
-
-    /**
-     * Test case for addElasticubeDataSecurity
-     *
-     * Add new data context.
-     *
-     */
-//    public function testAddElasticubeDataSecurity()
-//    {
-//        $elasticubeNewDataSecurityItems = [
-//            ['foo-1' => 'bar-1'],
-//            ['foo-2' => 'bar-2'],
-//        ];
-//
-//        $this->expects(
-//            'elasticubes/datasecurity',
-//            'POST',
-//            ['json' => $elasticubeNewDataSecurityItems]
-//        );
-//
-//        $this->clientMock->elastiCubes->addElasticubeDataSecurity($elasticubeNewDataSecurityItems);
-//    }
 }

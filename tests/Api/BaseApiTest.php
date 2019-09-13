@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class BaseApiTest extends TestCase
 {
-
     /**
      * @var MockObject|Client
      */
@@ -23,6 +22,13 @@ abstract class BaseApiTest extends TestCase
         $this->clientMock = $this->createPartialMock(Client::class, ['runRequest']);
     }
 
+    /**
+     * Helper to setup "runRequest expect"
+     *
+     * @param $path
+     * @param $method
+     * @param array $options
+     */
     public function expects($path, $method, $options = [])
     {
         $this->clientMock->expects($this->once())
