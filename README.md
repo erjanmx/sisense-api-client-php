@@ -27,6 +27,7 @@ https://developers.sisense.com/display/API2/REST+API+Reference+-+v1.0
 - Branding
 - DataSources
 - ElastiCubes
+- Geo
 - Groups
 - Palettes
 - Reporting

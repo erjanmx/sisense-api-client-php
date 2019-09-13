@@ -25,10 +25,7 @@ class ElastiCubes extends AbstractApi
     {
         $path = $this->getPath('metadata');
 
-        return $this->get($path, ['query' => [
-            'q' => $q,
-            'sortBy' => $sortBy,
-        ]]);
+        return $this->get($path, ['query' => compact('q', 'sortBy')]);
     }
 
     /**
@@ -339,7 +336,6 @@ class ElastiCubes extends AbstractApi
     public function attachDetachFolder(string $address, string $cubeId, array $attachDetachObj) : array
     {
         $path = $this->getPath(sprintf('%s/%s/attachDetach', $address, $cubeId));
-
 
         return $this->post($path, ['json' => $attachDetachObj]);
     }

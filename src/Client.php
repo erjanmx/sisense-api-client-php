@@ -22,6 +22,7 @@ use Doctrine\Instantiator\Exception\InvalidArgumentException;
  * @property-read Api\V09\Settings $settings
  * @property-read Api\V09\Roles $roles
  * @property-read Api\V09\DataSources $dataSources
+ * @property-read Api\V09\Geo $geo
  */
 class Client implements ClientInterface
 {
@@ -39,6 +40,7 @@ class Client implements ClientInterface
             'settings' => 'V09\Settings',
             'roles' => 'V09\Roles',
             'dataSources' => 'V09\DataSources',
+            'geo' => 'V09\Geo',
         ],
         'v1.0' => [
             'users' => 'Users',
