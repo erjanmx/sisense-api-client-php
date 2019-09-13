@@ -1,38 +1,18 @@
 <?php
 
-namespace Sisense\Tests;
-
-use Sisense\Client;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
+namespace Tests\Api;
 
 /**
  * Class AuthenticationTest
  */
-class AuthenticationTest extends TestCase
+class AuthenticationTest extends BaseApiTest
 {
-    /**
-     * @var MockObject|Client
-     */
-    protected $clientMock;
-
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->clientMock = $this->createPartialMock(Client::class, ['runRequest']);
-    }
-
     /**
      * @covers \Sisense\Api\Authentication::login
      */
     public function testLogin()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/authentication/login', 'POST', ['form_params' => ['username' => 'u', 'password' => 'p']])
-            ->willReturn([]);
+        $this->expects('v1/authentication/login', 'POST', ['form_params' => ['username' => 'u', 'password' => 'p']]);
 
         $this->clientMock->authentication->login('u', 'p');
     }
@@ -42,10 +22,7 @@ class AuthenticationTest extends TestCase
      */
     public function testLogout()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/authentication/logout', 'GET', ['query' => ['targetDevice' => 'c']])
-            ->willReturn([]);
+        $this->expects('v1/authentication/logout', 'GET', ['query' => ['targetDevice' => 'c']]);
 
         $this->clientMock->authentication->logout('c');
     }

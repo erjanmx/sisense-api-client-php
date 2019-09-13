@@ -1,6 +1,6 @@
 <?php
 
-namespace Sisense\Tests\Api;
+namespace Tests\Api;
 
 use Sisense\Client;
 use PHPUnit\Framework\TestCase;
@@ -8,9 +8,8 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class BaseApiTest
  */
-class BaseApiTest extends TestCase
+abstract class BaseApiTest extends TestCase
 {
-    protected $m;
 
     /**
      * @var MockObject|Client
@@ -24,16 +23,11 @@ class BaseApiTest extends TestCase
         $this->clientMock = $this->createPartialMock(Client::class, ['runRequest']);
     }
 
-    public function testOne()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function expectsRequestWith($arguments)
+    public function expects($path, $method, $options = [])
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with(...func_get_args())
+            ->with($path, $method, $options)
             ->willReturn([]);
     }
 }

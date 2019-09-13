@@ -1,37 +1,19 @@
 <?php
 
-namespace Sisense\Tests\Api\V09;
+namespace Tests\Api\V09;
 
-use Sisense\Client;
-use Sisense\Api\V09\Branding;
-use PHPUnit\Framework\TestCase;
+use Tests\Api\BaseApiTest;
 
 /**
  * Class BrandingTest
  */
-class BrandingTest extends TestCase
+class BrandingTest extends BaseApiTest
 {
-    /**
-     * @var MockObject|Client
-     */
-    protected $clientMock;
-
-
     public function setUp()
     {
         parent::setUp();
 
-        $this->clientMock = $this->createPartialMock(Client::class, ['runRequest']);
-
         $this->clientMock->useVersion('v0.9', true);
-    }
-
-    public function expects($path, $method, $options = [])
-    {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with($path, $method, $options)
-            ->willReturn([]);
     }
 
     /**

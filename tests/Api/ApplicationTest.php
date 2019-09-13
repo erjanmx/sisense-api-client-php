@@ -1,27 +1,19 @@
 <?php
 
-namespace Sisense\Tests;
-
-use Sisense\Client;
-use PHPUnit\Framework\TestCase;
+namespace Tests\Api;
 
 /**
  * Class ApplicationTest
  */
-class ApplicationTest extends TestCase
+class ApplicationTest extends BaseApiTest
 {
     /**
-     * @covers \Sisense\Api\Application
+     * @covers \Sisense\Api\Application::status
      */
     public function testStatus()
     {
-        $mock = $this->createPartialMock(Client::class, ['runRequest']);
+        $this->expects('v1/application/status', 'GET');
 
-        $mock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/application/status', 'GET')
-            ->willReturn([]);
-
-        $mock->application->status();
+        $this->clientMock->application->status();
     }
 }

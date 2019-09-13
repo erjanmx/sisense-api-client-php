@@ -1,38 +1,18 @@
 <?php
 
-namespace Sisense\Tests;
-
-use Sisense\Client;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
+namespace Tests\Api;
 
 /**
  * Class UsersTest
  */
-class UsersTest extends TestCase
+class UsersTest extends BaseApiTest
 {
-    /**
-     * @var MockObject|Client
-     */
-    protected $clientMock;
-
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->clientMock = $this->createPartialMock(Client::class, ['runRequest']);
-    }
-
     /**
      * @covers \Sisense\Api\Users::getAll()
      */
     public function testGetAll()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/users/', 'GET', ['query' => ['parameters']])
-            ->willReturn([]);
+        $this->expects('v1/users/', 'GET', ['query' => ['parameters']]);
 
         $this->clientMock->users->getAll(['parameters']);
     }
@@ -42,10 +22,7 @@ class UsersTest extends TestCase
      */
     public function testGetUser()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/users/1', 'GET', ['query' => ['fields' => 'field-1', 'expand' => 'expand']])
-            ->willReturn([]);
+        $this->expects('v1/users/1', 'GET', ['query' => ['fields' => 'field-1', 'expand' => 'expand']]);
 
         $this->clientMock->users->getUser(1, ['fields' => 'field-1', 'expand' => 'expand']);
     }
@@ -61,10 +38,7 @@ class UsersTest extends TestCase
             'lastName' => 'ln',
         ];
 
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/users/', 'POST', ['json' => $user])
-            ->willReturn([]);
+        $this->expects('v1/users/', 'POST', ['json' => $user]);
 
         $this->clientMock->users->addUser($user);
     }
@@ -74,10 +48,7 @@ class UsersTest extends TestCase
      */
     public function testAddADUser()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/users/ad', 'POST', ['json' => ['foo' => 'bar']])
-            ->willReturn([]);
+        $this->expects('v1/users/ad', 'POST', ['json' => ['foo' => 'bar']]);
 
         $this->clientMock->users->addADUser(['foo' => 'bar']);
     }
@@ -87,10 +58,7 @@ class UsersTest extends TestCase
      */
     public function testAddBulk()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/users/bulk', 'POST', ['json' => ['foo' => 'bar']])
-            ->willReturn([]);
+        $this->expects('v1/users/bulk', 'POST', ['json' => ['foo' => 'bar']]);
 
         $this->clientMock->users->addBulk(['foo' => 'bar']);
     }
@@ -100,10 +68,7 @@ class UsersTest extends TestCase
      */
     public function testAddADBulk()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/users/ad/bulk', 'POST', ['json' => ['foo' => 'bar']])
-            ->willReturn([]);
+        $this->expects('v1/users/ad/bulk', 'POST', ['json' => ['foo' => 'bar']]);
 
         $this->clientMock->users->addADBulk(['foo' => 'bar']);
     }
@@ -113,10 +78,7 @@ class UsersTest extends TestCase
      */
     public function testUpdateUser()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/users/1', 'PATCH', ['json' => ['foo' => 'bar']])
-            ->willReturn([]);
+        $this->expects('v1/users/1', 'PATCH', ['json' => ['foo' => 'bar']]);
 
         $this->clientMock->users->updateUser(1, ['foo' => 'bar']);
     }
@@ -126,10 +88,7 @@ class UsersTest extends TestCase
      */
     public function testDeleteUsers()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/users/bulk', 'DELETE', ['foo' => 'bar'])
-            ->willReturn([]);
+        $this->expects('v1/users/bulk', 'DELETE', ['foo' => 'bar']);
 
         $this->clientMock->users->deleteUsers(['foo' => 'bar']);
     }
@@ -139,10 +98,7 @@ class UsersTest extends TestCase
      */
     public function testDeleteUser()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('v1/users/1', 'DELETE')
-            ->willReturn([]);
+        $this->expects('v1/users/1', 'DELETE');
 
         $this->clientMock->users->deleteUser(1);
     }
