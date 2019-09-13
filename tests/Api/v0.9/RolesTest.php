@@ -27,6 +27,14 @@ class RolesTest extends TestCase
         $this->clientMock->useVersion('v0.9', true);
     }
 
+    public function expects($path, $method, $options = [])
+    {
+        $this->clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with($path, $method, $options)
+            ->willReturn([]);
+    }
+
     /**
      * @covers \Sisense\Api\V09\Roles::getAll()
      */
@@ -34,10 +42,7 @@ class RolesTest extends TestCase
     {
         $parameters = ['foo' => 'bar'];
 
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('roles/', 'GET', ['query' => $parameters])
-            ->willReturn([]);
+        $this->expects('roles/', 'GET', ['query' => $parameters]);
 
         $this->clientMock->roles->getAll($parameters);
     }
@@ -47,10 +52,7 @@ class RolesTest extends TestCase
      */
     public function testGetRole()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('roles/1', 'GET')
-            ->willReturn([]);
+        $this->expects('roles/1', 'GET');
 
         $this->clientMock->roles->getRole('1');
     }
@@ -70,10 +72,7 @@ class RolesTest extends TestCase
      */
     public function testDeleteRole()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('roles/1', 'DELETE')
-            ->willReturn([]);
+        $this->expects('roles/1', 'DELETE');
 
         $this->clientMock->roles->deleteRole('1');
     }
@@ -83,10 +82,7 @@ class RolesTest extends TestCase
      */
     public function testUpdateRole()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('roles/1', 'PUT', ['role' => ['foo']])
-            ->willReturn([]);
+        $this->expects('roles/1', 'PUT', ['role' => ['foo']]);
 
         $this->clientMock->roles->updateRole('1', ['foo']);
     }
@@ -96,10 +92,7 @@ class RolesTest extends TestCase
      */
     public function testGetRolePathPermissions()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('roles/1/manifest/p', 'GET', ['query' => ['compiledRole' => true]])
-            ->willReturn([]);
+        $this->expects('roles/1/manifest/p', 'GET', ['query' => ['compiledRole' => true]]);
 
         $this->clientMock->roles->getRolePathPermissions('1', 'p', true);
     }
@@ -109,10 +102,7 @@ class RolesTest extends TestCase
      */
     public function testDeletePathPermissions()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('roles/1/manifest/p', 'DELETE')
-            ->willReturn([]);
+        $this->expects('roles/1/manifest/p', 'DELETE');
 
         $this->clientMock->roles->deletePathPermissions('1', 'p');
     }
@@ -122,10 +112,7 @@ class RolesTest extends TestCase
      */
     public function testUpdatePathPermissions()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('roles/1/manifest/p', 'PUT', ['manifest' => ['foo']])
-            ->willReturn([]);
+        $this->expects('roles/1/manifest/p', 'PUT', ['manifest' => ['foo']]);
 
         $this->clientMock->roles->updatePathPermissions('1', 'p', ['foo']);
     }
@@ -135,10 +122,7 @@ class RolesTest extends TestCase
      */
     public function testUpdatePathManifest()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('roles/1/manifest/p', 'POST', ['json' => ['manifest' => ['foo']]])
-            ->willReturn([]);
+        $this->expects('roles/1/manifest/p', 'POST', ['json' => ['manifest' => ['foo']]]);
 
         $this->clientMock->roles->updatePathManifest('1', 'p', ['foo']);
     }

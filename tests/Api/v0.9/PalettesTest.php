@@ -26,15 +26,20 @@ class PalettesTest extends TestCase
         $this->clientMock->useVersion('v0.9', true);
     }
 
+    public function expects($path, $method, $options = [])
+    {
+        $this->clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with($path, $method, $options)
+            ->willReturn([]);
+    }
+
     /**
      * @covers \Sisense\Api\V09\Palettes::getAll()
      */
     public function testGetAll()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('palettes/', 'GET')
-            ->willReturn([]);
+        $this->expects('palettes/', 'GET');
 
         $this->clientMock->palettes->getAll();
     }
@@ -44,10 +49,7 @@ class PalettesTest extends TestCase
      */
     public function testGetDefault()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('palettes/default', 'GET')
-            ->willReturn([]);
+        $this->expects('palettes/default', 'GET');
 
         $this->clientMock->palettes->getDefault();
     }
@@ -57,14 +59,9 @@ class PalettesTest extends TestCase
      */
     public function testAddPalette()
     {
-        $parameters = ['foo' => 'bar'];
+        $this->expects('palettes/', 'POST', ['json' => ['foo' => 'bar']]);
 
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('palettes/', 'POST', ['json' => $parameters])
-            ->willReturn([]);
-
-        $this->clientMock->palettes->addPalette($parameters);
+        $this->clientMock->palettes->addPalette(['foo' => 'bar']);
     }
 
     /**
@@ -72,10 +69,7 @@ class PalettesTest extends TestCase
      */
     public function testDeletePalette()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('palettes/p', 'DELETE')
-            ->willReturn([]);
+        $this->expects('palettes/p', 'DELETE');
 
         $this->clientMock->palettes->deletePalette('p');
     }
@@ -85,13 +79,8 @@ class PalettesTest extends TestCase
      */
     public function testUpdatePalette()
     {
-        $parameters = ['foo' => 'bar'];
+        $this->expects('palettes/p', 'PUT', ['foo' => 'bar']);
 
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('palettes/p', 'PUT', $parameters)
-            ->willReturn([]);
-
-        $this->clientMock->palettes->updatePalette('p', $parameters);
+        $this->clientMock->palettes->updatePalette('p', ['foo' => 'bar']);
     }
 }

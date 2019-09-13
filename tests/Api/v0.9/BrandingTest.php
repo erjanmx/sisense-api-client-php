@@ -12,20 +12,26 @@ use PHPUnit\Framework\TestCase;
 class BrandingTest extends TestCase
 {
     /**
-     * @var Branding
+     * @var MockObject|Client
      */
-    protected $m;
+    protected $clientMock;
 
-    public function expectsRequestWith($arguments)
+
+    public function setUp()
     {
-        $clientMock = $this->createPartialMock(Client::class, ['runRequest']);
+        parent::setUp();
 
-        $clientMock->expects($this->once())
+        $this->clientMock = $this->createPartialMock(Client::class, ['runRequest']);
+
+        $this->clientMock->useVersion('v0.9', true);
+    }
+
+    public function expects($path, $method, $options = [])
+    {
+        $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with(...func_get_args())
+            ->with($path, $method, $options)
             ->willReturn([]);
-
-        $this->m = $clientMock->v('v0.9')->branding;
     }
 
     /**
@@ -36,9 +42,9 @@ class BrandingTest extends TestCase
      */
     public function testGetBranding()
     {
-        $this->expectsRequestWith('branding/', 'GET');
+        $this->expects('branding/', 'GET');
 
-        $this->m->getBranding();
+        $this->clientMock->branding->getBranding();
     }
 
     /**
@@ -49,9 +55,9 @@ class BrandingTest extends TestCase
      */
     public function testResetBranding()
     {
-        $this->expectsRequestWith('branding/', 'DELETE');
+        $this->expects('branding/', 'DELETE');
 
-        $this->m->resetBranding();
+        $this->clientMock->branding->resetBranding();
     }
 
     /**
@@ -62,8 +68,8 @@ class BrandingTest extends TestCase
      */
     public function testSetBranding()
     {
-        $this->expectsRequestWith('branding/', 'POST', ['json' => ['foo' => 'bar']]);
+        $this->expects('branding/', 'POST', ['json' => ['foo' => 'bar']]);
 
-        $this->m->setBranding(['foo' => 'bar']);
+        $this->clientMock->branding->setBranding(['foo' => 'bar']);
     }
 }
