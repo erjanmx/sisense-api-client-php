@@ -137,7 +137,7 @@ class RolesTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('roles/1/manifest/p', 'POST', ['form_params' => ['manifest' => ['foo']]])
+            ->with('roles/1/manifest/p', 'POST', ['json' => ['manifest' => ['foo']]])
             ->willReturn([]);
 
         $this->clientMock->roles->updatePathManifest('1', 'p', ['foo']);

@@ -9,9 +9,9 @@ use Sisense\Client;
  *
  * @package Sisense\Api
  */
-class AbstractApi implements ApiInterface
+abstract class AbstractApi
 {
-    protected $resourcePath = '';
+    protected $resourcePath;
 
     /**
      * @var Client
@@ -27,43 +27,53 @@ class AbstractApi implements ApiInterface
     }
 
     /**
-     * @inheritDoc
+     * @param string $path
+     * @param array $options
+     * @return array
      */
-    public function post(string $path, array $data = [])
+    public function post(string $path, array $options = []) : array
     {
-        return $this->client->post($path, $data);
+        return $this->client->post($path, $options);
     }
 
     /**
-     * @inheritDoc
+     * @param string $path
+     * @param array $options
+     * @return array
      */
-    public function get(string $path, array $params = [])
+    public function get(string $path, array $options = []) : array
     {
-        return $this->client->get($path, $params);
+        return $this->client->get($path, $options);
     }
 
     /**
-     * @inheritDoc
+     * @param string $path
+     * @param array $options
+     * @return array
      */
-    public function put(string $path, array $data = [])
+    public function put(string $path, array $options = []) : array
     {
-        return $this->client->put($path, $data);
+        return $this->client->put($path, $options);
     }
 
     /**
-     * @inheritDoc
+     * @param string $path
+     * @param array $options
+     * @return array
      */
-    public function delete(string $path, array $data = [])
+    public function delete(string $path, array $options = []) : array
     {
-        return $this->client->delete($path, $data);
+        return $this->client->delete($path, $options);
     }
 
     /**
-     * @inheritDoc
+     * @param string $path
+     * @param array $options
+     * @return array
      */
-    public function patch(string $path, array $data = [])
+    public function patch(string $path, array $options = []) : array
     {
-        return $this->client->patch($path, $data);
+        return $this->client->patch($path, $options);
     }
 
     /**

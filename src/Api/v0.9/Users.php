@@ -23,7 +23,7 @@ class Users extends AbstractApi
      */
     public function getAll(array $parameters = []) : array
     {
-        return $this->get($this->getPath(), $parameters);
+        return $this->get($this->getPath(), ['query' => $parameters]);
     }
 
     /**
@@ -36,7 +36,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath('ad');
 
-        return $this->get($path, $parameters);
+        return $this->get($path, ['query' => $parameters]);
     }
 
     /**
@@ -49,7 +49,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath('allDirectories');
 
-        return $this->get($path, $parameters);
+        return $this->get($path, ['query' => $parameters]);
     }
 
     /**
@@ -62,7 +62,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath('count');
 
-        return $this->get($path, $parameters);
+        return $this->get($path, ['query' => $parameters]);
     }
 
     /**
@@ -92,12 +92,18 @@ class Users extends AbstractApi
 
     /**
      * Adds a new user.
-     * @param array $user
+     * @param array $newUser
+     * @param string $notify
      * @return array
      */
-    public function addUser(array $user) : array
+    public function addUser(array $newUser = [], string $notify = '') : array
     {
-        return $this->post($this->getPath(), $user);
+        $path = $this->getPath();
+
+        return $this->post($path, [
+            'json' => $newUser,
+            'query' => compact('notify'),
+        ]);
     }
 
     /**
@@ -110,7 +116,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath('simulate');
 
-        return $this->post($path, $parameters);
+        return $this->post($path, ['json' => $parameters]);
     }
 
     /**
@@ -123,7 +129,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath('ad');
 
-        return $this->post($path, $user);
+        return $this->post($path, ['json' => compact('user')]);
     }
 
     /**
@@ -136,7 +142,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath('forgetpassword');
 
-        return $this->post($path, ['userEmail' => $userEmail]);
+        return $this->post($path, ['json' => compact('userEmail')]);
     }
 
     /**
@@ -149,7 +155,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath('delete');
 
-        return $this->post($path, $parameters);
+        return $this->post($path, ['json' => $parameters]);
     }
 
     /**
@@ -162,7 +168,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath('validate');
 
-        return $this->post($path, $parameters);
+        return $this->post($path, ['json' => $parameters]);
     }
 
     /**

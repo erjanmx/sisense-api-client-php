@@ -26,6 +26,14 @@ class GroupsTest extends TestCase
         $this->clientMock->useVersion('v0.9', true);
     }
 
+    public function expects($path, $method, $options = [])
+    {
+        $this->clientMock->expects($this->once())
+            ->method('runRequest')
+            ->with($path, $method, $options)
+            ->willReturn([]);
+    }
+
     /**
      * @covers \Sisense\Api\V09\Groups::getAll()
      */
@@ -33,10 +41,7 @@ class GroupsTest extends TestCase
     {
         $parameters = ['foo' => 'bar'];
 
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/', 'GET', ['query' => $parameters])
-            ->willReturn([]);
+        $this->expects('groups/', 'GET', ['query' => $parameters]);
 
         $this->clientMock->groups->getAll($parameters);
     }
@@ -46,10 +51,7 @@ class GroupsTest extends TestCase
      */
     public function testGetAllAD()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/ad', 'GET', ['query' => ['foo' => 'bar']])
-            ->willReturn([]);
+        $this->expects('groups/ad', 'GET', ['query' => ['foo' => 'bar']]);
 
         $this->clientMock->groups->getAllAD(['foo' => 'bar']);
     }
@@ -59,10 +61,7 @@ class GroupsTest extends TestCase
      */
     public function testGetAllDirectories()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/allDirectories', 'GET', ['query' => ['foo' => 'bar']])
-            ->willReturn([]);
+        $this->expects('groups/allDirectories', 'GET', ['query' => ['foo' => 'bar']]);
 
         $this->clientMock->groups->getAllDirectories(['foo' => 'bar']);
     }
@@ -72,10 +71,7 @@ class GroupsTest extends TestCase
      */
     public function testGetGroup()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/1', 'GET')
-            ->willReturn([]);
+        $this->expects('groups/1', 'GET');
 
         $this->clientMock->groups->getGroup(1);
     }
@@ -85,25 +81,22 @@ class GroupsTest extends TestCase
      */
     public function testGetUsersInGroup()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/1/users', 'GET')
-            ->willReturn([]);
+        $this->expects('groups/1/users', 'GET');
 
         $this->clientMock->groups->getUsersInGroup(1);
     }
 
     /**
-     * @covers \Sisense\Api\V09\Groups::getGroupsByUser()
+     * @covers \Sisense\Api\V09\Groups::getAllByIds()
      */
     public function testGetGroupsByUser()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/byIds', 'POST', ['form_params' => ['foo' => 'bar']])
-            ->willReturn([]);
+        $this->expects('groups/byIds', 'POST', ['json' => ['1'], 'query' => [
+                'usersCount' => false,
+                'includeDomain' => false,
+            ]]);
 
-        $this->clientMock->groups->getGroupsByUser(['foo' => 'bar']);
+        $this->clientMock->groups->getAllByIds(['1']);
     }
 
     /**
@@ -111,10 +104,7 @@ class GroupsTest extends TestCase
      */
     public function testAddGroup()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/', 'POST', ['form_params' => ['foo' => 'bar']])
-            ->willReturn([]);
+        $this->expects('groups/', 'POST', ['json' => ['foo' => 'bar']]);
 
         $this->clientMock->groups->addGroup(['foo' => 'bar']);
     }
@@ -124,10 +114,7 @@ class GroupsTest extends TestCase
      */
     public function testAddADGroup()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/ad', 'POST', ['form_params' => ['foo' => 'bar']])
-            ->willReturn([]);
+        $this->expects('groups/ad', 'POST', ['json' => ['foo' => 'bar']]);
 
         $this->clientMock->groups->addADGroup(['foo' => 'bar']);
     }
@@ -137,10 +124,7 @@ class GroupsTest extends TestCase
      */
     public function testAddUsersToGroup()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/1/users', 'POST', ['form_params' => ['foo' => 'bar']])
-            ->willReturn([]);
+        $this->expects('groups/1/users', 'POST', ['json' => ['foo' => 'bar']]);
 
         $this->clientMock->groups->addUsersToGroup(1, ['foo' => 'bar']);
     }
@@ -150,10 +134,7 @@ class GroupsTest extends TestCase
      */
     public function testValidateName()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/validateName', 'POST', ['form_params' => ['foo' => 'bar']])
-            ->willReturn([]);
+        $this->expects('groups/validateName', 'POST', ['json' => ['foo' => 'bar']]);
 
         $this->clientMock->groups->validateName(['foo' => 'bar']);
     }
@@ -163,10 +144,7 @@ class GroupsTest extends TestCase
      */
     public function testUpdateGroup()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/1', 'PUT', ['foo' => 'bar'])
-            ->willReturn([]);
+        $this->expects('groups/1', 'PUT', ['json' => ['foo' => 'bar']]);
 
         $this->clientMock->groups->updateGroup(1, ['foo' => 'bar']);
     }
@@ -176,10 +154,7 @@ class GroupsTest extends TestCase
      */
     public function testDeleteGroups()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/', 'DELETE', ['foo' => 'bar'])
-            ->willReturn([]);
+        $this->expects('groups/', 'DELETE', ['json' => ['foo' => 'bar']]);
 
         $this->clientMock->groups->deleteGroups(['foo' => 'bar']);
     }
@@ -189,10 +164,7 @@ class GroupsTest extends TestCase
      */
     public function testDeleteGroup()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/1', 'DELETE', ['deleteauthors' => true])
-            ->willReturn([]);
+        $this->expects('groups/1', 'DELETE', ['json' => ['deleteAdUsers' => true]]);
 
         $this->clientMock->groups->deleteGroup(1, true);
     }
@@ -202,11 +174,8 @@ class GroupsTest extends TestCase
      */
     public function testDeleteUsers()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('groups/1/users', 'DELETE', ['foo' => 'bar'])
-            ->willReturn([]);
+        $this->expects('groups/1/users', 'DELETE', ['json' => ['foo', 'bar']]);
 
-        $this->clientMock->groups->deleteUsers(1, ['foo' => 'bar']);
+        $this->clientMock->groups->deleteUsers(1, ['foo', 'bar']);
     }
 }

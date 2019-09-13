@@ -22,29 +22,27 @@ class Authentication extends AbstractApi
     {
         $path = $this->getPath('login');
 
-        $data = [
-            'username' => $username,
-            'password' => $password,
+        $options = [
+            'form_params' => [
+                'username' => $username,
+                'password' => $password,
+            ],
         ];
 
-        return $this->post($path, $data);
+        return $this->post($path, $options);
     }
 
     /**
      * The logout endpoint revokes the given user's token, ensuring requests made with it will no longer work.
      * A new token may be generated using the login endpoint.
      *
-     * @param  string $collection Collection name to be returned.
+     * @param string $targetDevice
      * @return array
      */
-    public function logout(string $collection = '') : array
+    public function logout(string $targetDevice = '') : array
     {
-        $params = [
-            'collection' => $collection
-        ];
-
         $path = $this->getPath('logout');
 
-        return $this->get($path, $params);
+        return $this->get($path, ['query' => compact('targetDevice')]);
     }
 }

@@ -18,9 +18,9 @@ class Branding extends AbstractApi
      *
      * @return array
      */
-    public function getAll() : array
+    public function getBranding() : array
     {
-        $path = $this->getPath('');
+        $path = $this->getPath();
 
         return $this->get($path);
     }
@@ -31,23 +31,22 @@ class Branding extends AbstractApi
      * @param array $parameters
      * @return array
      */
-    public function addBranding(array $parameters) : array
+    public function setBranding(array $parameters) : array
     {
-        $path = $this->getPath('');
+        $path = $this->getPath();
 
-        return $this->post($path, $parameters);
+        return $this->post($path, ['json' => $parameters]);
     }
 
     /**
      * Resets the current branding to the default Sisense branding.
      *
-     * @param array $parameters
      * @return array
      */
-    public function deleteBranding(array $parameters) : array
+    public function resetBranding() : array
     {
-        $path = $this->getPath('');
+        $path = $this->getPath();
 
-        return $this->delete($path, $parameters);
+        return $this->delete($path);
     }
 }

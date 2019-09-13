@@ -61,7 +61,7 @@ class PalettesTest extends TestCase
 
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('palettes/', 'POST', ['form_params' => $parameters])
+            ->with('palettes/', 'POST', ['json' => $parameters])
             ->willReturn([]);
 
         $this->clientMock->palettes->addPalette($parameters);

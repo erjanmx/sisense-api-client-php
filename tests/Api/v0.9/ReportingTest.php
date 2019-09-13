@@ -35,7 +35,7 @@ class ReportingTest extends TestCase
 
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('reporting/', 'POST', ['form_params' => $parameters])
+            ->with('reporting/', 'POST', ['json' => $parameters])
             ->willReturn([]);
 
         $this->clientMock->reporting->shareReporting($parameters);

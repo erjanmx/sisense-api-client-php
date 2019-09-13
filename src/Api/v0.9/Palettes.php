@@ -45,9 +45,9 @@ class Palettes extends AbstractApi
      */
     public function addPalette(array $parameters) : array
     {
-        $path = $this->getPath('');
+        $path = $this->getPath();
 
-        return $this->post($path, $parameters);
+        return $this->post($path, ['json' => $parameters]);
     }
 
     /**

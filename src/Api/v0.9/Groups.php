@@ -23,7 +23,9 @@ class Groups extends AbstractApi
     {
         $path = $this->getPath();
 
-        return $this->get($path, $parameters);
+        $options['query'] = $parameters;
+
+        return $this->get($path, $options);
     }
 
     /**
@@ -36,7 +38,7 @@ class Groups extends AbstractApi
     {
         $path = $this->getPath('ad');
 
-        return $this->get($path, $parameters);
+        return $this->get($path, ['query' => $parameters]);
     }
 
     /**
@@ -49,7 +51,7 @@ class Groups extends AbstractApi
     {
         $path = $this->getPath('allDirectories');
 
-        return $this->get($path, $parameters);
+        return $this->get($path, ['query' => $parameters]);
     }
 
     /**
@@ -79,69 +81,74 @@ class Groups extends AbstractApi
     }
 
     /**
-     * Returns a list of groups by user IDs.
+     * Returns a list of groups by groups IDs.
      *
-     * @param array $parameters
+     * @param array $idsList List of groups Ids
+     * @param bool $usersCount Returns the number of users per group.
+     * @param bool $includeDomain Returns the domain details of each AD group.
      * @return array
      */
-    public function getGroupsByUser(array $parameters) : array
+    public function getAllByIds(array $idsList = [], bool $usersCount = false, bool $includeDomain = false) : array
     {
         $path = $this->getPath('byIds');
 
-        return $this->post($path, $parameters);
+        return $this->post($path, [
+            'json' => $idsList,
+            'query' => compact('usersCount', 'includeDomain'),
+        ]);
     }
 
     /**
      * Adds a new Sisense user group.
      *
-     * @param array $parameters
+     * @param array $newGroups
      * @return array
      */
-    public function addGroup(array $parameters) : array
+    public function addGroup(array $newGroups = []) : array
     {
         $path = $this->getPath();
 
-        return $this->post($path, $parameters);
+        return $this->post($path, ['json' => $newGroups]);
     }
 
     /**
      * Adds a new Active Directory user group.
      *
-     * @param array $parameters
+     * @param array $newGroups
      * @return array
      */
-    public function addADGroup(array $parameters) : array
+    public function addADGroup(array $newGroups = []) : array
     {
         $path = $this->getPath('ad');
 
-        return $this->post($path, $parameters);
+        return $this->post($path, ['json' => $newGroups]);
     }
 
     /**
      * Adds users to a Sisense user group.
      *
      * @param string $group
-     * @param array $parameters
+     * @param array $usersArray
      * @return array
      */
-    public function addUsersToGroup(string $group, array $parameters) : array
+    public function addUsersToGroup(string $group, array $usersArray = []) : array
     {
         $path = $this->getPath(sprintf('%s/users', $group));
 
-        return $this->post($path, $parameters);
+        return $this->post($path, ['json' => $usersArray]);
     }
 
     /**
      * Checks if the group exists.
      *
-     * @param array $parameters
+     * @param array $group
      * @return array
      */
-    public function validateName(array $parameters) : array
+    public function validateName(array $group = []) : array
     {
         $path = $this->getPath('validateName');
 
-        return $this->post($path, $parameters);
+        return $this->post($path, ['json' => $group]);
     }
 
     /**
@@ -155,47 +162,47 @@ class Groups extends AbstractApi
     {
         $path = $this->getPath($group);
 
-        return $this->put($path, $parameters);
+        return $this->put($path, ['json' => $parameters]);
     }
 
     /**
      * Deletes multiple groups by group name or ID.
      *
-     * @param array $parameters
+     * @param array $deleteGroup
      * @return array
      */
-    public function deleteGroups(array $parameters = []) : array
+    public function deleteGroups(array $deleteGroup = []) : array
     {
         $path = $this->getPath();
 
-        return $this->delete($path, $parameters);
+        return $this->delete($path, ['json' => $deleteGroup]);
     }
 
     /**
      * Deletes a group by group ID or name.
      *
      * @param string $group
-     * @param bool $deleteAuthors Select true if you want to delete the users of the Active Directory group.
+     * @param bool $deleteAdUsers Select true if you want to delete the users of the Active Directory group.
      * @return array
      */
-    public function deleteGroup(string $group, bool $deleteAuthors = false) : array
+    public function deleteGroup(string $group, bool $deleteAdUsers = false) : array
     {
         $path = $this->getPath($group);
 
-        return $this->delete($path, ['deleteauthors' => $deleteAuthors]);
+        return $this->delete($path, ['json' => compact('deleteAdUsers')]);
     }
 
     /**
      * Removes users from a user group.
      *
      * @param string $group
-     * @param array $parameters
+     * @param array $usersArray
      * @return array
      */
-    public function deleteUsers(string $group, array $parameters) : array
+    public function deleteUsers(string $group, array $usersArray = []) : array
     {
         $path = $this->getPath(sprintf('%s/users', $group));
 
-        return $this->delete($path, $parameters);
+        return $this->delete($path, ['json' => $usersArray]);
     }
 }

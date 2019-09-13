@@ -123,49 +123,49 @@ class Client implements ClientInterface
     /**
      * @inheritDoc
      */
-    public function get(string $path, array $params = []) : array
+    public function get(string $path, array $options = []) : array
     {
-        $options['query'] = $params;
-
         return $this->runRequest($path, 'GET', $options);
     }
 
     /**
      * @inheritDoc
      */
-    public function post(string $path, array $data = []) : array
+    public function post(string $path, array $options = []) : array
     {
-        $options['form_params'] = $data;
-
         return $this->runRequest($path, 'POST', $options);
     }
 
     /**
      * @inheritDoc
      */
-    public function put(string $path, array $data = []): array
+    public function put(string $path, array $options = []): array
     {
-        return $this->runRequest($path, 'PUT', $data);
+        return $this->runRequest($path, 'PUT', $options);
     }
 
     /**
      * @inheritDoc
      */
-    public function delete(string $path, array $data = []): array
+    public function delete(string $path, array $options = []): array
     {
-        return $this->runRequest($path, 'DELETE', $data);
+        return $this->runRequest($path, 'DELETE', $options);
     }
 
     /**
      * @inheritDoc
      */
-    public function patch(string $path, array $data = []): array
+    public function patch(string $path, array $options = []): array
     {
-        return $this->runRequest($path, 'PATCH', $data);
+        return $this->runRequest($path, 'PATCH', $options);
     }
 
     /**
-     * @inheritDoc
+     * @param string $name
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return Api\AbstractApi
      */
     public function api(string $name)
     {

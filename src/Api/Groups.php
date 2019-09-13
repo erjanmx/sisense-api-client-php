@@ -40,7 +40,9 @@ class Groups extends AbstractApi
      */
     public function getAll(array $parameters = []) : array
     {
-        return $this->get($this->getPath(), $parameters);
+        $options['query'] = $parameters;
+
+        return $this->get($this->getPath(), $options);
     }
 
     /**
@@ -55,12 +57,7 @@ class Groups extends AbstractApi
     {
         $path = $this->getPath($id);
 
-        $params = [
-            'fields' => $fields,
-            'expand' => $expand,
-        ];
-
-        return $this->get($path, $params);
+        return $this->get($path, ['query' => compact('fields', 'expand')]);
     }
 
     /**
@@ -75,6 +72,6 @@ class Groups extends AbstractApi
      */
     public function addGroup(array $group) : array
     {
-        return $this->post($this->getPath(), $group);
+        return $this->post($this->getPath(), ['json' => $group]);
     }
 }

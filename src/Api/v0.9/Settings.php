@@ -40,14 +40,14 @@ class Settings extends AbstractApi
     /**
      * Adds or updates system settings.
      *
-     * @param array $parameters
+     * @param array $emailServer
      * @return array
      */
-    public function setSystem(array $parameters) : array
+    public function setSystem(array $emailServer) : array
     {
         $path = $this->getPath('system');
 
-        return $this->post($path, $parameters);
+        return $this->post($path, ['json' => compact('emailServer')]);
     }
 
     /**
@@ -72,7 +72,7 @@ class Settings extends AbstractApi
     {
         $path = $this->getPath('proxy');
 
-        return $this->post($path, ['proxyConfig' => $proxyConfig]);
+        return $this->post($path, ['json' => compact('proxyConfig')]);
     }
 
     /**
@@ -85,20 +85,19 @@ class Settings extends AbstractApi
     {
         $path = $this->getPath('proxy');
 
-        return $this->put($path, ['proxyConfig' => $proxyConfig]);
+        return $this->put($path, ['json' => compact('proxyConfig')]);
     }
 
     /**
      * Deletes proxy server settings in your server.
      *
-     * @param array $parameters
      * @return array
      */
-    public function deleteProxy(array $parameters) : array
+    public function deleteProxy() : array
     {
         $path = $this->getPath('proxy');
 
-        return $this->delete($path, $parameters);
+        return $this->delete($path);
     }
 
     /**
@@ -123,7 +122,7 @@ class Settings extends AbstractApi
     {
         $path = $this->getPath('security');
 
-        return $this->post($path, ['securityConfig' => $securityConfig]);
+        return $this->post($path, ['json' => compact('securityConfig')]);
     }
 
     /**
@@ -160,7 +159,7 @@ class Settings extends AbstractApi
     {
         $path = $this->getPath('globalization');
 
-        return $this->post($path, ['globalizationConfig' => $globalizationConfig]);
+        return $this->post($path, ['json' => compact('globalizationConfig')]);
     }
 
     /**

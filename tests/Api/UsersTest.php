@@ -63,7 +63,7 @@ class UsersTest extends TestCase
 
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('v1/users/', 'POST', ['form_params' => $user])
+            ->with('v1/users/', 'POST', ['json' => $user])
             ->willReturn([]);
 
         $this->clientMock->users->addUser($user);
@@ -76,7 +76,7 @@ class UsersTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('v1/users/ad', 'POST', ['form_params' => ['foo' => 'bar']])
+            ->with('v1/users/ad', 'POST', ['json' => ['foo' => 'bar']])
             ->willReturn([]);
 
         $this->clientMock->users->addADUser(['foo' => 'bar']);
@@ -89,7 +89,7 @@ class UsersTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('v1/users/bulk', 'POST', ['form_params' => ['foo' => 'bar']])
+            ->with('v1/users/bulk', 'POST', ['json' => ['foo' => 'bar']])
             ->willReturn([]);
 
         $this->clientMock->users->addBulk(['foo' => 'bar']);
@@ -102,7 +102,7 @@ class UsersTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('v1/users/ad/bulk', 'POST', ['form_params' => ['foo' => 'bar']])
+            ->with('v1/users/ad/bulk', 'POST', ['json' => ['foo' => 'bar']])
             ->willReturn([]);
 
         $this->clientMock->users->addADBulk(['foo' => 'bar']);
@@ -115,7 +115,7 @@ class UsersTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('v1/users/1', 'PATCH', ['foo' => 'bar'])
+            ->with('v1/users/1', 'PATCH', ['json' => ['foo' => 'bar']])
             ->willReturn([]);
 
         $this->clientMock->users->updateUser(1, ['foo' => 'bar']);

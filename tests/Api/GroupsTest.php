@@ -62,7 +62,7 @@ class GroupsTest extends TestCase
 
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('v1/groups/', 'POST', ['form_params' => $group])
+            ->with('v1/groups/', 'POST', ['json' => $group])
             ->willReturn([]);
 
         $this->clientMock->groups->addGroup($group);

@@ -44,7 +44,7 @@ class AuthenticationTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('v1/authentication/logout', 'GET', ['query' => ['collection' => 'c']])
+            ->with('v1/authentication/logout', 'GET', ['query' => ['targetDevice' => 'c']])
             ->willReturn([]);
 
         $this->clientMock->authentication->logout('c');

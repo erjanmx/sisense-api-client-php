@@ -26,78 +26,12 @@ class ElastiCubesTest extends TestCase
         $this->clientMock->useVersion('v0.9', true);
     }
 
-    /**
-     * @covers \Sisense\Api\V09\ElastiCubes::getAllMetaData()
-     */
-    public function testGetAllMetaData()
+    public function expects($path, $method, $options = [])
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('elasticubes/metadata', 'GET', ['query' => ['q' => 'q', 'sortBy' => 'field']])
+            ->with($path, $method, $options)
             ->willReturn([]);
-
-        $q = 'q';
-        $sortBy = 'field';
-
-        $this->clientMock->elastiCubes->getAllMetaData($q, $sortBy);
-    }
-
-    /**
-     * @covers \Sisense\Api\V09\ElastiCubes::getMetaData()
-     */
-    public function testGetMetaData()
-    {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/metadata/cube', 'GET', ['query' => []])
-            ->willReturn([]);
-
-        $elastiCube = 'cube';
-
-        $this->clientMock->elastiCubes->getMetaData($elastiCube);
-    }
-
-    /**
-     * @covers \Sisense\Api\V09\ElastiCubes::getFields()
-     */
-    public function testGetFields()
-    {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/elasticubes/metadata/cube/fields', 'GET', ['query' => []])
-            ->willReturn([]);
-
-        $elastiCube = 'cube';
-
-        $this->clientMock->elastiCubes->getFields($elastiCube);
-    }
-
-    /**
-     * @covers \Sisense\Api\V09\ElastiCubes::executeSql()
-     */
-    public function testExecuteSql()
-    {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/elasticubes/cube/Sql', 'GET', ['query' => []])
-            ->willReturn([]);
-
-        $elastiCube = 'cube';
-
-        $this->clientMock->elastiCubes->executeSql($elastiCube);
-    }
-
-    /**
-     * @covers \Sisense\Api\V09\ElastiCubes::getAll()
-     */
-    public function testGetAll()
-    {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/', 'GET', ['query' => []])
-            ->willReturn([]);
-
-        $this->clientMock->elastiCubes->getAll();
     }
 
     /**
@@ -105,12 +39,59 @@ class ElastiCubesTest extends TestCase
      */
     public function testGetServers()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/servers', 'GET', ['query' => []])
-            ->willReturn([]);
+        $this->expects('elasticubes/servers', 'GET', ['query' => ['q' => 'q']]);
 
-        $this->clientMock->elastiCubes->getServers();
+        $this->clientMock->elastiCubes->getServers(['q' => 'q']);
+    }
+
+    /**
+     * @covers \Sisense\Api\V09\ElastiCubes::getElasticubesMetadata()
+     */
+    public function testGetElasticubesMetadata()
+    {
+        $this->expects('elasticubes/metadata', 'GET', ['query' => ['q' => 'q', 'sortBy' => 'field']]);
+
+        $this->clientMock->elastiCubes->getElasticubesMetadata('q', 'field');
+    }
+
+    /**
+     * @covers \Sisense\Api\V09\ElastiCubes::executeSql()
+     */
+    public function testExecuteSql()
+    {
+        $this->expects('elasticubes/elasticubes/cube/Sql', 'GET');
+
+        $this->clientMock->elastiCubes->executeSql('cube');
+    }
+
+    /**
+     * @covers \Sisense\Api\V09\ElastiCubes::getMetaData()
+     */
+    public function testGetMetaData()
+    {
+        $this->expects('elasticubes/metadata/cube', 'GET');
+
+        $this->clientMock->elastiCubes->getMetaData('cube');
+    }
+
+    /**
+     * @covers \Sisense\Api\V09\ElastiCubes::getFields()
+     */
+    public function testGetFields()
+    {
+        $this->expects('elasticubes/elasticubes/metadata/cube/fields', 'GET');
+
+        $this->clientMock->elastiCubes->getFields('cube');
+    }
+
+    /**
+     * @covers \Sisense\Api\V09\ElastiCubes::getAll()
+     */
+    public function testGetAll()
+    {
+        $this->expects('elasticubes/', 'GET', ['query' => []]);
+
+        $this->clientMock->elastiCubes->getAll();
     }
 
     /**
@@ -118,10 +99,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testGetServer()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/servers/serverName', 'GET', ['query' => []])
-            ->willReturn([]);
+        $this->expects('elasticubes/servers/serverName', 'GET', ['query' => []]);
 
         $this->clientMock->elastiCubes->getServer('serverName');
     }
@@ -131,10 +109,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testGetServerSimple()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/servers/serverName/simple', 'GET', ['query' => []])
-            ->willReturn([]);
+        $this->expects('elasticubes/servers/serverName/simple', 'GET', ['query' => []]);
 
         $this->clientMock->elastiCubes->getServerSimple('serverName');
     }
@@ -144,10 +119,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testGetServerStatus()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/servers/serverName/status', 'GET', ['query' => []])
-            ->willReturn([]);
+        $this->expects('elasticubes/servers/serverName/status', 'GET', ['query' => []]);
 
         $this->clientMock->elastiCubes->getServerStatus('serverName');
     }
@@ -157,10 +129,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testGetDataSecurityRules()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/serverName/cubeName/datasecurity', 'GET', ['query' => []])
-            ->willReturn([]);
+        $this->expects('elasticubes/serverName/cubeName/datasecurity', 'GET', ['query' => []]);
 
         $this->clientMock->elastiCubes->getDataSecurityRules('serverName', 'cubeName');
     }
@@ -170,10 +139,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testGetUserDataSecurity()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/serverName/cubeName/userName/datasecurity', 'GET', ['query' => []])
-            ->willReturn([]);
+        $this->expects('elasticubes/serverName/cubeName/userName/datasecurity', 'GET');
 
         $this->clientMock->elastiCubes->getUserDataSecurity('serverName', 'cubeName', 'userName');
     }
@@ -183,10 +149,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testGetColumnDataSecurity()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/datasecurity/t/c', 'GET', ['query' => []])
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/datasecurity/t/c', 'GET');
 
         $this->clientMock->elastiCubes->getColumnDataSecurity('s', 'c', 't', 'c');
     }
@@ -196,10 +159,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testGetAuthRecords()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/permissions', 'GET', ['query' => []])
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/permissions', 'GET');
 
         $this->clientMock->elastiCubes->getAuthRecords('s', 'c');
     }
@@ -209,10 +169,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testStartServer()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/start', 'POST')
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/start', 'POST');
 
         $this->clientMock->elastiCubes->startServer('s', 'c');
     }
@@ -222,10 +179,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testStopServer()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/stop', 'POST')
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/stop', 'POST');
 
         $this->clientMock->elastiCubes->stopServer('s', 'c');
     }
@@ -235,10 +189,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testRestartServer()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/restart', 'POST')
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/restart', 'POST');
 
         $this->clientMock->elastiCubes->restartServer('s', 'c');
     }
@@ -248,10 +199,10 @@ class ElastiCubesTest extends TestCase
      */
     public function testStartBuild()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/startBuild', 'POST', ['form_params' => ['type' => 't']])
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/startBuild', 'POST', ['query' => [
+                'type' => 't',
+                'orchestratorTask' => '',
+            ]]);
 
         $this->clientMock->elastiCubes->startBuild('s', 'c', 't');
     }
@@ -261,10 +212,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testStopBuild()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/stopBuild', 'POST', ['form_params' => []])
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/stopBuild', 'POST');
 
         $this->clientMock->elastiCubes->stopBuild('s', 'c');
     }
@@ -274,12 +222,9 @@ class ElastiCubesTest extends TestCase
      */
     public function testExecuteJAQL()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/c/jaql', 'POST', ['form_params' => ['jaql' => 'jaql']])
-            ->willReturn([]);
+        $this->expects('elasticubes/c/jaql', 'POST', ['json' => ['Jaql' => 'jaql']]);
 
-        $this->clientMock->elastiCubes->executeJAQL('jaql', 'c');
+        $this->clientMock->elastiCubes->executeJAQL('c', 'jaql');
     }
 
     /**
@@ -287,12 +232,9 @@ class ElastiCubesTest extends TestCase
      */
     public function testDefineDataSecurity()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/datasecurity', 'POST', ['form_params' => ['body' => []]])
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/datasecurity', 'POST', ['json' => [1]]);
 
-        $this->clientMock->elastiCubes->defineDataSecurity('s', 'c', []);
+        $this->clientMock->elastiCubes->defineDataSecurity('s', 'c', [1]);
     }
 
     /**
@@ -300,10 +242,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testAddDataSecurity()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/datasecurity', 'POST', ['form_params' => ['parameters']])
-            ->willReturn([]);
+        $this->expects('elasticubes/datasecurity', 'POST', ['json' => ['parameters']]);
 
         $this->clientMock->elastiCubes->addDataSecurity(['parameters']);
     }
@@ -313,10 +252,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testAttachDetachFolder()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/attachDetach', 'POST', ['form_params' => ['body' => ['body']]])
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/attachDetach', 'POST', ['json' => ['body']]);
 
         $this->clientMock->elastiCubes->attachDetachFolder('s', 'c', ['body']);
     }
@@ -326,10 +262,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testDefinePermission()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/permissions', 'POST', ['form_params' => ['shares' => ['shares']]])
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/permissions', 'POST', ['json' => ['shares']]);
 
         $this->clientMock->elastiCubes->definePermission('s', 'c', ['shares']);
     }
@@ -339,10 +272,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testUpdatePermissions()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/permissions', 'PUT', ['shares' => ['shares']])
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/permissions', 'PUT', ['json' => ['shares']]);
 
         $this->clientMock->elastiCubes->updatePermissions('s', 'c', ['shares']);
     }
@@ -352,10 +282,7 @@ class ElastiCubesTest extends TestCase
      */
     public function testDeleteDataContext()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/datasecurity/t/c', 'DELETE', [])
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/datasecurity/t/c', 'DELETE', []);
 
         $this->clientMock->elastiCubes->deleteDataContext('s', 'c', 't', 'c');
     }
@@ -365,11 +292,30 @@ class ElastiCubesTest extends TestCase
      */
     public function testDeleteAllPermissions()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('elasticubes/s/c/datasecurity/t/c', 'DELETE', [])
-            ->willReturn([]);
+        $this->expects('elasticubes/s/c/datasecurity/t/c', 'DELETE', []);
 
         $this->clientMock->elastiCubes->deleteAllPermissions('s', 'c', 't', 'c');
     }
+
+    /**
+     * Test case for addElasticubeDataSecurity
+     *
+     * Add new data context.
+     *
+     */
+//    public function testAddElasticubeDataSecurity()
+//    {
+//        $elasticubeNewDataSecurityItems = [
+//            ['foo-1' => 'bar-1'],
+//            ['foo-2' => 'bar-2'],
+//        ];
+//
+//        $this->expects(
+//            'elasticubes/datasecurity',
+//            'POST',
+//            ['json' => $elasticubeNewDataSecurityItems]
+//        );
+//
+//        $this->clientMock->elastiCubes->addElasticubeDataSecurity($elasticubeNewDataSecurityItems);
+//    }
 }

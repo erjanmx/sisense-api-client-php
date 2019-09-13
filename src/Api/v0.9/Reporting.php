@@ -21,8 +21,8 @@ class Reporting extends AbstractApi
      */
     public function shareReporting(array $sendReports) : array
     {
-        $path = $this->getPath('');
+        $path = $this->getPath();
 
-        return $this->post($path, $sendReports);
+        return $this->post($path, ['json' => $sendReports]);
     }
 }

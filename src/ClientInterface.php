@@ -11,59 +11,51 @@ use InvalidArgumentException;
  */
 interface ClientInterface
 {
-    /**
-     * @param string $name
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return Api\AbstractApi
-     */
-    public function api(string $name);
 
     /**
      * HTTP GETs $params to $path.
      *
      * @param  $path
-     * @param  array $params
+     * @param  array $options
      * @return array
      */
-    public function get(string $path, array $params = []) : array;
+    public function get(string $path, array $options = []) : array;
 
     /**
      * HTTP POSTs $data to $path.
      *
      * @param  $path
-     * @param  $data
+     * @param  $options
      * @return array
      */
-    public function post(string $path, array $data = []) : array;
+    public function post(string $path, array $options = []) : array;
 
     /**
      * HTTP PUTs $data to $path.
      *
      * @param  $path
-     * @param  $data
+     * @param  $options
      * @return array
      */
-    public function put(string $path, array $data = []) : array;
+    public function put(string $path, array $options = []) : array;
 
     /**
      * HTTP DELETEs $data to $path.
      *
      * @param string $path
-     * @param mixed  $data
+     * @param mixed  $options
      *
      * @return array
      */
-    public function delete(string $path, array $data = []) : array;
+    public function delete(string $path, array $options = []) : array;
 
     /**
      * HTTP PATCHes $data to $path.
      *
      * @param string $path
-     * @param mixed  $data
+     * @param mixed  $options
      *
      * @return array
      */
-    public function patch(string $path, array $data = []) : array;
+    public function patch(string $path, array $options = []) : array;
 }

@@ -1,54 +1,44 @@
 <?php
 
-namespace Sisense\Tests\V09;
+namespace Sisense\Tests\Api\V09;
 
 use Sisense\Client;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
+use Sisense\Api\V09\Authorization;
 
 /**
  * Class AuthorizationTest
+ *
  */
 class AuthorizationTest extends TestCase
 {
     /**
-     * @var MockObject|Client
+     * @var Authorization
      */
-    protected $clientMock;
+    protected $m;
 
-
-    public function setUp()
+    public function expectsRequestWith($arguments)
     {
-        parent::setUp();
+        $clientMock = $this->createPartialMock(Client::class, ['runRequest']);
 
-        $this->clientMock = $this->createPartialMock(Client::class, ['runRequest']);
-
-        $this->clientMock->useVersion('v0.9', true);
-    }
-
-    /**
-     * @covers \Sisense\Api\V09\Authorization::login
-     */
-    public function testIsAuth()
-    {
-        $this->clientMock->expects($this->once())
+        $clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('auth/isauth', 'GET')
+            ->with(...func_get_args())
             ->willReturn([]);
 
-        $this->clientMock->authorization->isAuth();
+        $this->m = $clientMock->v('v0.9')->authorization;
     }
 
-    /**
-     * @covers \Sisense\Api\V09\Authorization::logout
-     */
+    public function testIsAuthenticated()
+    {
+        $this->expectsRequestWith('auth/isauth', 'GET');
+
+        $this->m->isAuthenticated();
+    }
+
     public function testLogout()
     {
-        $this->clientMock->expects($this->once())
-            ->method('runRequest')
-            ->with('auth/logout', 'GET')
-            ->willReturn([]);
-
-        $this->clientMock->authorization->logout();
+        $this->expectsRequestWith('auth/logout', 'GET');
+        $this->m->logout();
     }
 }

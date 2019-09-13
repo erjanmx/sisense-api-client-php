@@ -132,7 +132,7 @@ class ClientTest extends TestCase
             ->with('path', 'GET', ['query' => ['foo' => 'bar']])
             ->willReturn([]);
 
-        $clientMock->get('path', ['foo' => 'bar']);
+        $clientMock->get('path', ['query' => ['foo' => 'bar']]);
     }
 
     /**
@@ -147,7 +147,7 @@ class ClientTest extends TestCase
             ->with('path', 'POST', ['form_params' => ['foo' => 'bar']])
             ->willReturn([]);
 
-        $clientMock->post('path', ['foo' => 'bar']);
+        $clientMock->post('path', ['form_params' => ['foo' => 'bar']]);
     }
 
     /**

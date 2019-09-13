@@ -59,7 +59,7 @@ class SettingsTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('settings/system', 'POST', ['form_params' => ['foo' => 'bar']])
+            ->with('settings/system', 'POST', ['json' => ['emailServer' => ['foo' => 'bar']]])
             ->willReturn([]);
 
         $this->clientMock->settings->setSystem(['foo' => 'bar']);
@@ -85,7 +85,7 @@ class SettingsTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('settings/proxy', 'POST', ['form_params' => ['proxyConfig' => ['bar']]])
+            ->with('settings/proxy', 'POST', ['json' => ['proxyConfig' => ['bar']]])
             ->willReturn([]);
 
         $this->clientMock->settings->addProxy(['bar']);
@@ -98,7 +98,7 @@ class SettingsTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('settings/proxy', 'PUT', ['proxyConfig' => ['bar']])
+            ->with('settings/proxy', 'PUT', ['json' => ['proxyConfig' => ['bar']]])
             ->willReturn([]);
 
         $this->clientMock->settings->updateProxy(['bar']);
@@ -111,10 +111,10 @@ class SettingsTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('settings/proxy', 'DELETE', ['foo' => 'bar'])
+            ->with('settings/proxy', 'DELETE')
             ->willReturn([]);
 
-        $this->clientMock->settings->deleteProxy(['foo' => 'bar']);
+        $this->clientMock->settings->deleteProxy();
     }
 
     /**
@@ -137,7 +137,7 @@ class SettingsTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('settings/security', 'POST', ['form_params' => ['securityConfig' => ['foo' => 'bar']]])
+            ->with('settings/security', 'POST', ['json' => ['securityConfig' => ['foo' => 'bar']]])
             ->willReturn([]);
 
         $this->clientMock->settings->setSecurity(['foo' => 'bar']);

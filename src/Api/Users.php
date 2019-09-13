@@ -41,7 +41,7 @@ class Users extends AbstractApi
      */
     public function getAll(array $parameters = []) : array
     {
-        return $this->get($this->getPath(), $parameters);
+        return $this->get($this->getPath(), ['query' => $parameters]);
     }
 
     /**
@@ -55,7 +55,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath($id);
 
-        return $this->get($path, $parameters);
+        return $this->get($path, ['query' => $parameters]);
     }
 
     /**
@@ -66,7 +66,7 @@ class Users extends AbstractApi
      */
     public function addUser(array $user) : array
     {
-        return $this->post($this->getPath(), $user);
+        return $this->post($this->getPath(), ['json' => $user]);
     }
 
     /**
@@ -79,7 +79,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath('ad');
 
-        return $this->post($path, $adUser);
+        return $this->post($path, ['json' => $adUser]);
     }
 
     /**
@@ -92,7 +92,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath('bulk');
 
-        return $this->post($path, $users);
+        return $this->post($path, ['json' => $users]);
     }
 
     /**
@@ -105,7 +105,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath('ad/bulk');
 
-        return $this->post($path, $adUsers);
+        return $this->post($path, ['json' => $adUsers]);
     }
 
     /**
@@ -119,7 +119,7 @@ class Users extends AbstractApi
     {
         $path = $this->getPath($id);
 
-        return $this->patch($path, $parameters);
+        return $this->patch($path, ['json' => $parameters]);
     }
 
     /**

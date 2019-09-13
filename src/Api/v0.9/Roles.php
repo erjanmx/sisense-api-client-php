@@ -24,7 +24,7 @@ class Roles extends AbstractApi
     {
         $path = $this->getPath();
 
-        return $this->get($path, $parameters);
+        return $this->get($path, ['query' => $parameters]);
     }
 
     /**
@@ -90,7 +90,7 @@ class Roles extends AbstractApi
     {
         $path = $this->getPath(sprintf('%s/manifest/%s', $idOrName, $path));
 
-        return $this->get($path, ['compiledRole' => $compiledRole]);
+        return $this->get($path, ['query' => compact('compiledRole')]);
     }
 
     /**
@@ -134,6 +134,6 @@ class Roles extends AbstractApi
     {
         $path = $this->getPath(sprintf('%s/manifest/%s', $idOrName, $path));
 
-        return $this->post($path, ['manifest' => $manifest]);
+        return $this->post($path, ['json' => compact('manifest')]);
     }
 }

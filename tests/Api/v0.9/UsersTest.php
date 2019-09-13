@@ -117,7 +117,7 @@ class UsersTest extends TestCase
 
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('users/', 'POST', ['form_params' => $user])
+            ->with('users/', 'POST', ['json' => $user, 'query' => ['notify' => '']])
             ->willReturn([]);
 
         $this->clientMock->users->addUser($user);
@@ -130,7 +130,7 @@ class UsersTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('users/simulate', 'POST', ['form_params' => ['foo']])
+            ->with('users/simulate', 'POST', ['json' => ['foo']])
             ->willReturn([]);
 
         $this->clientMock->users->simulate(['foo']);
@@ -143,7 +143,7 @@ class UsersTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('users/ad', 'POST', ['form_params' => ['foo']])
+            ->with('users/ad', 'POST', ['json' => ['user' => ['foo']]])
             ->willReturn([]);
 
         $this->clientMock->users->importFromActiveDirectory(['foo']);
@@ -156,7 +156,7 @@ class UsersTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('users/forgetpassword', 'POST', ['form_params' => ['userEmail' => 'foo']])
+            ->with('users/forgetpassword', 'POST', ['json' => ['userEmail' => 'foo']])
             ->willReturn([]);
 
         $this->clientMock->users->forgetPassword('foo');
@@ -169,7 +169,7 @@ class UsersTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('users/delete', 'POST', ['form_params' => ['foo' => 'bar']])
+            ->with('users/delete', 'POST', ['json' => ['foo' => 'bar']])
             ->willReturn([]);
 
         $this->clientMock->users->deleteUser(['foo' => 'bar']);
@@ -182,7 +182,7 @@ class UsersTest extends TestCase
     {
         $this->clientMock->expects($this->once())
             ->method('runRequest')
-            ->with('users/validate', 'POST', ['form_params' => ['foo' => 'bar']])
+            ->with('users/validate', 'POST', ['json' => ['foo' => 'bar']])
             ->willReturn([]);
 
         $this->clientMock->users->validate(['foo' => 'bar']);
