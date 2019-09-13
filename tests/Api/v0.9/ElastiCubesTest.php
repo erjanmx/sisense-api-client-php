@@ -37,33 +37,43 @@ class ElastiCubesTest extends BaseApiTest
     }
 
     /**
-     * @covers \Sisense\Api\V09\ElastiCubes::executeSql()
+     * @covers \Sisense\Api\V09\ElastiCubes::getElasticubeSql()
      */
-    public function testExecuteSql()
+    public function testGetElasticubeSql()
     {
-        $this->expects('elasticubes/elasticubes/cube/Sql', 'GET');
+        $this->expects('elasticubes/cube/Sql', 'GET', ['query' => []]);
 
-        $this->clientMock->elastiCubes->executeSql('cube');
+        $this->clientMock->elastiCubes->getElasticubeSql('cube');
     }
 
     /**
-     * @covers \Sisense\Api\V09\ElastiCubes::getMetaData()
+     * @covers \Sisense\Api\V09\ElastiCubes::getServerElastiCubes()
      */
-    public function testGetMetaData()
+    public function testGetServerElastiCubes()
+    {
+        $this->expects('elasticubes/server/addr', 'GET', ['query' => ['foo']]);
+
+        $this->clientMock->elastiCubes->getServerElastiCubes('addr', ['foo']);
+    }
+
+    /**
+     * @covers \Sisense\Api\V09\ElastiCubes::getElasticubeMetadata()
+     */
+    public function testGetElasticubeMetadata()
     {
         $this->expects('elasticubes/metadata/cube', 'GET');
 
-        $this->clientMock->elastiCubes->getMetaData('cube');
+        $this->clientMock->elastiCubes->getElasticubeMetadata('cube');
     }
 
     /**
-     * @covers \Sisense\Api\V09\ElastiCubes::getFields()
+     * @covers \Sisense\Api\V09\ElastiCubes::getElasticubeFields()
      */
-    public function testGetFields()
+    public function testGetElasticubeFields()
     {
-        $this->expects('elasticubes/elasticubes/metadata/cube/fields', 'GET');
+        $this->expects('elasticubes/metadata/cube/fields', 'GET', ['query' => []]);
 
-        $this->clientMock->elastiCubes->getFields('cube');
+        $this->clientMock->elastiCubes->getElasticubeFields('cube');
     }
 
     /**
@@ -111,7 +121,7 @@ class ElastiCubesTest extends BaseApiTest
      */
     public function testGetDataSecurityRules()
     {
-        $this->expects('elasticubes/serverName/cubeName/datasecurity', 'GET', ['query' => []]);
+        $this->expects('elasticubes/serverName/cubeName/datasecurity', 'GET');
 
         $this->clientMock->elastiCubes->getDataSecurityRules('serverName', 'cubeName');
     }
@@ -240,13 +250,43 @@ class ElastiCubesTest extends BaseApiTest
     }
 
     /**
-     * @covers \Sisense\Api\V09\ElastiCubes::definePermission()
+     * @covers \Sisense\Api\V09\ElastiCubes::updateDataSecurity()
      */
-    public function testDefinePermission()
+    public function testUpdateDataSecurity()
     {
-        $this->expects('elasticubes/s/c/permissions', 'POST', ['json' => ['shares']]);
+        $this->expects('elasticubes/datasecurity/s', 'POST', ['json' => ['elasticubeUpdateDataSecurity' => ['body']]]);
 
-        $this->clientMock->elastiCubes->definePermission('s', 'c', ['shares']);
+        $this->clientMock->elastiCubes->updateDataSecurity('s', ['body']);
+    }
+
+    /**
+     * @covers \Sisense\Api\V09\ElastiCubes::addElasticubePermissions()
+     */
+    public function testAddElasticubePermissions()
+    {
+        $this->expects('elasticubes/s/c/permissions', 'POST', ['json' => ['shares' => ['s']]]);
+
+        $this->clientMock->elastiCubes->addElasticubePermissions('s', 'c', ['s']);
+    }
+
+    /**
+     * @covers \Sisense\Api\V09\ElastiCubes::updateServerDefaultPermissions()
+     */
+    public function testUpdateServerDefaultPermissions()
+    {
+        $this->expects('elasticubes/server/s/permissions', 'PUT', ['json' => ['s']]);
+
+        $this->clientMock->elastiCubes->updateServerDefaultPermissions('s', ['s']);
+    }
+
+    /**
+     * @covers \Sisense\Api\V09\ElastiCubes::updateServerPermissions()
+     */
+    public function testUpdateServerPermissions()
+    {
+        $this->expects('elasticubes/servers/s/permissions', 'PUT', ['json' => ['s']]);
+
+        $this->clientMock->elastiCubes->updateServerPermissions('s', ['s']);
     }
 
     /**
