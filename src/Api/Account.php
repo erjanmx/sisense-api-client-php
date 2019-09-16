@@ -59,7 +59,7 @@ class Account extends AbstractApi
     {
         $path = $this->getPath('begin_activate');
 
-        return $this->post($path, ['emailObj' => $emailObj]);
+        return $this->post($path, ['json' => $emailObj]);
     }
 
     /**
@@ -73,7 +73,7 @@ class Account extends AbstractApi
     {
         $path = $this->getPath(sprintf('activate/%s', $token));
 
-        return $this->post($path, ['passwordObject' => $passwordObject]);
+        return $this->post($path, ['json' => $passwordObject]);
     }
 
     /**
@@ -86,7 +86,7 @@ class Account extends AbstractApi
     {
         $path = $this->getPath('begin_activate_bulk');
 
-        return $this->post($path, ['emailList' => $emailList]);
+        return $this->post($path, ['json' => $emailList]);
     }
 
     /**
@@ -99,7 +99,7 @@ class Account extends AbstractApi
     {
         $path = $this->getPath('begin_reset_password');
 
-        return $this->post($path, ['emailObject' => $emailObject]);
+        return $this->post($path, ['json' => $emailObject]);
     }
 
     /**
@@ -113,6 +113,6 @@ class Account extends AbstractApi
     {
         $path = $this->getPath(sprintf('reset_password/%s', $token));
 
-        return $this->post($path, ['passwordObject' => $passwordObject]);
+        return $this->post($path, ['json' => $passwordObject]);
     }
 }

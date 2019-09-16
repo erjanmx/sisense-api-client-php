@@ -14,6 +14,8 @@ use Doctrine\Instantiator\Exception\InvalidArgumentException;
  * @property-read Api\Users|Api\V09\Users $users
  * @property-read Api\Groups|Api\V09\Groups $groups
  * @property-read Api\Application $application
+ * @property-read Api\Account $account
+ * @property-read Api\Admin $admin
  * @property-read Api\V09\Authorization $authorization
  * @property-read Api\V09\ElastiCubes $elastiCubes
  * @property-read Api\V09\Branding $branding
@@ -47,6 +49,8 @@ class Client implements ClientInterface
             'groups' => 'Groups',
             'application' => 'Application',
             'authentication' => 'Authentication',
+            'account' => 'Account',
+            'admin' => 'Admin',
         ],
     ];
 

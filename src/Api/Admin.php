@@ -9,7 +9,7 @@ namespace Sisense\Api;
  */
 class Admin extends AbstractApi
 {
-    protected $resourcePath = 'v1/dashboards';
+    protected $resourcePath = 'v1';
 
     /**
      * Get all dashboards
@@ -19,9 +19,101 @@ class Admin extends AbstractApi
      */
     public function getAllDashboards(array $parameters = []) : array
     {
-        $path = $this->getPath('admin');
+        $path = $this->getPath('dashboards/admin');
 
-        return $this->get($path, $parameters);
+        return $this->get($path, ['query' => $parameters]);
+    }
+
+    /**
+     * Returns an encrypted password from plaintext
+     *
+     * @param array $plaintext
+     * @return array
+     */
+    public function encryptDataBasePassword(string $plaintext) : array
+    {
+        $path = $this->getPath('app_database/encrypt_database_password');
+
+        return $this->get($path, ['query' => compact('plaintext')]);
+    }
+
+    /**
+     * Get all dashboards with extended model
+     *
+     * @param array $params
+     * @return array
+     */
+    public function getAllDashboardsWithExtendedModel(array $params) : array
+    {
+        $path = $this->getPath('dashboards/admin');
+
+        return $this->post($path, ['json' => $params]);
+    }
+
+    /**
+     * Get all dashboards with extended model
+     *
+     * @param array $params
+     * @return array
+     */
+    public function getAllDashboardsExtended(array $params) : array
+    {
+        $path = $this->getPath('dashboards/search');
+
+        return $this->post($path, ['json' => $params]);
+    }
+
+    /**
+     * Write action to usage-analytics
+     *
+     * @param array $body
+     * @return array
+     */
+    public function logActionToUsageAnalytics(array $body = []) : array
+    {
+        $path = $this->getPath('usageanalytics/log-action');
+
+        return $this->post($path, ['json' => $body]);
+    }
+
+    /**
+     * Restore usage analytics cube
+     *
+     * @param array $body
+     * @return array
+     */
+    public function restoreUsageAnalyticsCube() : array
+    {
+        $path = $this->getPath('usageanalytics/restore/cube');
+
+        return $this->post($path);
+    }
+
+    /**
+     * Restore usage analytics dashboards
+     *
+     * @param array $body
+     * @return array
+     */
+    public function restoreUsageAnalyticsDashboards(array $body = []) : array
+    {
+        $path = $this->getPath('usageanalytics/restore/dashboards');
+
+        return $this->post($path, ['json' => $body]);
+    }
+
+    /**
+     * Get usage analytics metadata
+     *
+     * @param string $id
+     * @param array $body
+     * @return array
+     */
+    public function getUsageMetadata(string $id, array $body = []) : array
+    {
+        $path = $this->getPath(sprintf('usageanalytics/%s/usageMetadata', $id));
+
+        return $this->post($path, ['json' => $body]);
     }
 
     /**
@@ -33,9 +125,22 @@ class Admin extends AbstractApi
      */
     public function changeDashboardOwner(string $id, array $ownerData) : array
     {
-        $path = $this->getPath(sprintf('%s/admin/change_owner', $id));
+        $path = $this->getPath(sprintf('dashboards/%s/admin/change_owner', $id));
 
-        return $this->post($path, ['ownerData' => $ownerData]);
+        return $this->post($path, ['json' => $ownerData]);
+    }
+
+    /**
+     * Change a MongoDB user’s password
+     *
+     * @param array $userObject
+     * @return array
+     */
+    public function changeMongoUserPassword(array $userObject) : array
+    {
+        $path = $this->getPath('app_database/change_database_user_password');
+
+        return $this->post($path, ['json' => $userObject]);
     }
 
     /**
@@ -53,15 +158,13 @@ class Admin extends AbstractApi
         string $dashboardId = '',
         array $dataSource = []
     ) : array {
-        $path = $this->getPath(sprintf('%s/%s/replace_datasource', $server, $title));
+        $path = $this->getPath(sprintf('dashboards/%s/%s/replace_datasource', $server, $title));
 
         $options = [
             'query' => [
                 'dashboardId' => $dashboardId,
             ],
-            'json' => [
-                'datasource' => $dataSource,
-            ]
+            'json' =>  $dataSource,
         ];
 
         return $this->post($path, $options);

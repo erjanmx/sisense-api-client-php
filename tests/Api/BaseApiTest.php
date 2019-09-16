@@ -4,6 +4,7 @@ namespace Tests\Api;
 
 use Sisense\Client;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class BaseApiTest

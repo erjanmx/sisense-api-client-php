@@ -36,10 +36,12 @@ https://developers.sisense.com/display/API2/REST+API+Reference+-+v1.0
 - Users
 
 #### v1.0
-- Users
-- Groups
+- Account
+- Admin
 - Application
 - Authentication
+- Groups
+- Users
 
 
 ## Run tests
